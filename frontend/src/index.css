@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-vault-bg text-vault-text antialiased;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+::selection {
+  background: rgba(124, 92, 252, 0.35);
+}
+
+/* thin, unobtrusive scrollbar to match the dark UI */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cfdaf8 transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #2a2f3d;
+  border-radius: 8px;
+}
+
+:focus-visible {
+  outline: 2px solid #7c5cfc;
+  outline-offset: 2px;
+}
