@@ -1,35 +1,51 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-html, body, #root {
-  height: 100%;
+@theme {
+    --color-vault-bg: #0f1117;
+    --color-vault-elevated: #171a23;
+    --color-vault-border: #2a2f3d;
+    --color-vault-text: #f5f7ff;
+    --color-vault-muted: #9aa4b8;
+    --color-vault-faint: #687386;
+    --color-vault-accent: #7c5cfc;
+    --color-vault-accent-hover: #6d4df5;
+    --color-vault-danger: #ef4444;
+}
+
+html,
+body,
+#root {
+    height: 100%;
 }
 
 body {
-  @apply bg-vault-bg text-vault-text antialiased;
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    background-color: var(--color-vault-bg);
+    color: var(--color-vault-text);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: rgba(124, 92, 252, 0.35);
+    background: rgba(124, 92, 252, 0.35);
 }
 
-/* thin, unobtrusive scrollbar to match the dark UI */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #cfdaf8 transparent;
+    scrollbar-width: thin;
+    scrollbar-color: #cfdaf8 transparent;
 }
+
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+    width: 8px;
+    height: 8px;
 }
+
 *::-webkit-scrollbar-thumb {
-  background-color: #2a2f3d;
-  border-radius: 8px;
+    background-color: #2a2f3d;
+    border-radius: 8px;
 }
 
 :focus-visible {
-  outline: 2px solid #7c5cfc;
-  outline-offset: 2px;
+    outline: 2px solid #7c5cfc;
+    outline-offset: 2px;
 }
