@@ -1,9 +1,22 @@
 import { Link } from 'react-router-dom';
-//import { ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export function Breadcrumbs() {
   return (
     <div className="flex items-center gap-2 text-sm text-vault-muted mb-4 flex-wrap">
+      
+        return (
+          <span  className="flex items-center gap-2">
+            <ChevronRight size={14} className="text-vault-faint" />
+            
+              <Link className="hover:text-white transition-colors">
+                
+              </Link>
+            ) : (
+              <span className= 'text-vault-accent'> </span>
+            
+          </span>
+        );
       
     </div>
   );
@@ -18,4 +31,11 @@ const tagColors = {
   express: 'bg-neutral-500/10 text-neutral-300 border-neutral-500/20',
   auth: 'bg-rose-500/10 text-rose-400 border-rose-500/20'
 };
-
+export function TagBadge({ slug, name }) {
+  const classes = tagColors[slug] || 'bg-white/5 text-vault-muted border-vault-border';
+  return (
+    <span className={`inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium ${classes}`}>
+      {name}
+    </span>
+  );
+}

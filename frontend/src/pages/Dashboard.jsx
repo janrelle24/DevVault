@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+//import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FileText, Users, Grid2x2, Trash2, Shield, ShieldOff } from 'lucide-react';
 import { Breadcrumbs } from '../components/Bits';
 
 export default function Dashboard() {
@@ -22,7 +23,9 @@ export default function Dashboard() {
       
         <div>
           <div className="grid sm:grid-cols-3 gap-3 mb-8">
-            
+            <StatCard icon={FileText} label="Documents"  />
+            <StatCard icon={Grid2x2} label="Categories" />
+            <StatCard icon={Users} label="Users" />
           </div>
 
           <p className="text-xs font-semibold tracking-wide text-vault-faint mb-3">MOST VIEWED</p>
@@ -52,7 +55,23 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              
+              <tr className="border-t border-vault-border hover:bg-white/5">
+                <td className="px-4 py-3">
+                  <Link className="text-white font-medium hover:text-vault-accent">
+                    
+                  </Link>
+                </td>
+                <td className="px-4 py-3 text-vault-muted"></td>
+                <td className="px-4 py-3 text-vault-muted tabular-nums"></td>
+                <td className="px-4 py-3 text-vault-faint"></td>
+                <td className="px-4 py-3 text-right">
+                  <button
+                    className="text-vault-faint hover:text-vault-danger transition-colors"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -82,14 +101,25 @@ export default function Dashboard() {
                       
                       className="flex items-center gap-1.5 text-xs text-vault-muted hover:text-white transition-colors ml-auto"
                     >
+                      <ShieldOff size={13} /> : <Shield size={13} />
                       
                     </button>
                   </td>
                 </tr>
-             
+            
             </tbody>
           </table>
         </div>
+    </div>
+  );
+}
+
+function StatCard({ icon: Icon, label, value }) {
+  return (
+    <div className="rounded-xl border border-vault-border bg-vault-elevated p-4">
+      <Icon size={18} className="text-vault-accent mb-2" />
+      <p className="text-2xl font-bold text-white tabular-nums">{value ?? '—'}</p>
+      <p className="text-xs text-vault-faint">{label}</p>
     </div>
   );
 }
