@@ -4,11 +4,14 @@ import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
 import Home from './pages/Home';
 import { CategoriesList, CategoryDetail } from './pages/Categories';
+import Tags from './pages/Tags';
+import Bookmarks from './pages/Bookmarks';
+import Recent from './pages/Recent';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import DocPage from './pages/DocPage';
-//import { CategoriesList, CategoryDetail } from './pages/Categories';
+
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -35,6 +38,9 @@ export default function App() {
               <Route path="/docs/slug" element={<DocPage />} />
               <Route path="/categories" element={<CategoriesList />} />
               <Route path="/categories/:slug" element={<CategoryDetail />} />
+              <Route path="/tags" element={<Tags />} />
+              <Route path="/bookmarks" element={<Bookmarks />} />
+              <Route path="/recent" element={<Recent />} />
               <Route path="/dashboard" element={<Dashboard />}/>
               <Route path="/login" element={<Login />}/>
               <Route path="/signup" element={<Signup />}/>

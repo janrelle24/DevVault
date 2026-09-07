@@ -1,0 +1,48 @@
+//import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Bookmark } from 'lucide-react';
+//import { api } from '../lib/api';
+//import { useAuth } from '../context/AuthContext';
+import { Breadcrumbs } from '../components/Bits';
+
+export default function Bookmarks() {
+    
+    
+
+    
+
+    return (
+        <div className="px-6 lg:px-10 py-8 max-w-5xl">
+        <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Bookmarks' }]} />
+        <h1 className="text-3xl font-extrabold text-white tracking-tight mb-6">Bookmarks</h1>
+
+        
+            <p className="text-sm text-vault-muted">Log in to save and view your bookmarked documents.</p>
+        
+            <p className="text-sm text-vault-muted">Loading…</p>
+        
+            <div className="flex flex-col items-center text-center py-16 text-vault-muted">
+            <Bookmark size={32} className="mb-3 text-vault-faint" />
+            <p className="text-sm">No bookmarks yet. Tap the bookmark icon on any doc to save it here.</p>
+            </div>
+        
+            <div className="grid sm:grid-cols-2 gap-3">
+            
+                <Link
+                
+                className="rounded-xl border border-vault-border bg-vault-elevated p-4 hover:border-vault-accent/40 transition-colors"
+                >
+                <div className="flex items-start gap-3">
+                    <span className="text-xl"></span>
+                    <div className="min-w-0">
+                    <p className="text-sm font-semibold text-white truncate"></p>
+                    <p className="text-xs text-vault-faint mt-1 line-clamp-2"></p>
+                    </div>
+                </div>
+                </Link>
+            
+            </div>
+        
+        </div>
+    );
+}
