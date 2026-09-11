@@ -1,27 +1,29 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
+    const { login } = useAuth();
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
         setLoading(true);
         setError('');
 
-        // Temporary login logic
-        console.log('Login:', {
-            email,
-            password
-        });
-
-        setTimeout(() => {
-            setLoading(false);
-        }, 500);
+        try {
+            await login(email, password);
+            navigate('/');
+        }catch (err){
+            setError(err.message);
+        }finally{
+            setLoading(false);  
+        }
     }
 
     return (

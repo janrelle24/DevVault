@@ -1,23 +1,24 @@
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
-export function Breadcrumbs() {
+export function Breadcrumbs({ items }) {
   return (
     <div className="flex items-center gap-2 text-sm text-vault-muted mb-4 flex-wrap">
-      
+      {items.map((item, i) => {
+        const isLast = i === items.length - 1;
         return (
-          <span  className="flex items-center gap-2">
-            <ChevronRight size={14} className="text-vault-faint" />
-            
-              <Link className="hover:text-white transition-colors">
-                
+          <span key={i} className="flex items-center gap-2">
+            {i > 0 && <ChevronRight size={14} className="text-vault-faint" />}
+            {item.to && !isLast ? (
+              <Link to={item.to} className="hover:text-white transition-colors">
+                {item.label}
               </Link>
             ) : (
-              <span className= 'text-vault-accent'> </span>
-            
+              <span className={isLast ? 'text-vault-accent' : ''}>{item.label}</span>
+            )}
           </span>
         );
-      
+      })}
     </div>
   );
 }
@@ -31,6 +32,7 @@ const tagColors = {
   express: 'bg-neutral-500/10 text-neutral-300 border-neutral-500/20',
   auth: 'bg-rose-500/10 text-rose-400 border-rose-500/20'
 };
+
 export function TagBadge({ slug, name }) {
   const classes = tagColors[slug] || 'bg-white/5 text-vault-muted border-vault-border';
   return (
