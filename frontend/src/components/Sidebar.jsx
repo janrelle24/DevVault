@@ -16,8 +16,24 @@ export default function Sidebar({ open, onNavigate }) {
     const { user } = useAuth();
     const [categories, setCategories] = useState([]);
 
+    /*useEffect(() => {
+        api.getCategories()
+            .then(({ categories }) => setCategories(categories))
+            .catch((err) => {
+                console.error('Failed to load categories:', err);
+                setCategories([]);
+            });
+    }, []);*/
     useEffect(() => {
-        api.getCategories().then(({ categories }) => setCategories(categories)).catch(() => {});
+        api.getCategories()
+            .then((data) => {
+                console.log('Categories API response:', data);
+                setCategories(data.categories || []);
+            })
+            .catch((err) => {
+                console.error('Failed to load categories:', err);
+                setCategories([]);
+            });
     }, []);
 
     return (
