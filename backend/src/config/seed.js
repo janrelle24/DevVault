@@ -18,51 +18,62 @@ const tags = ['React', 'Vite', 'JavaScript', 'Node.js', 'PostgreSQL', 'Express',
 const reactInstallContent = [
     {
         type: 'section',
-        heading: '1. Check Node.js',
-        text: 'Make sure you have Node.js installed.',
-        code: { lang: 'bash', value: 'node -v' },
-        callout: { tone: 'success', text: 'Expected output: v18.x.x or higher' }
+        heading: '1. Check Node.js & npm',
+        text: 'Make sure Node.js and npm are installed.',
+        code: { lang: 'bash', value: 'node -v\nnpm -v' },
+        callout: { tone: 'success', text: 'Both commands should return a version number.' }
     },
     {
         type: 'section',
-        heading: '2. Check npm',
-        text: 'npm comes with Node.js.',
-        code: { lang: 'bash', value: 'npm -v' },
-        callout: { tone: 'success', text: 'Expected output: 9.x.x or higher' }
-    },
-    {
-        type: 'section',
-        heading: '3. Create React Application',
+        heading: '2. Create React Application',
         text: 'Use Vite to create a new React project.',
         code: { lang: 'bash', value: 'npm create vite@latest my-app' }
     },
     {
         type: 'section',
-        heading: '4. Select Framework',
-        text: 'When prompted, select React, then select JavaScript or TypeScript.',
-        code: { lang: 'bash', value: '? Select a framework: › React' }
+        heading: '3. Select Framework',
+        text: 'Select React, then choose JavaScript or TypeScript.',
+        code: { lang: 'bash', value: '? Select a framework: > React' }
     },
     {
         type: 'section',
-        heading: '5. Enter Project Directory',
+        heading: '4. Enter Project Directory',
         text: 'Move into your newly created project folder.',
         code: { lang: 'bash', value: 'cd my-app' }
     },
     {
         type: 'section',
-        heading: '6. Install Dependencies',
-        text: 'Install all required packages.',
-        code: { lang: 'bash', value: 'npm install' }
+        heading: '5. Install Dependencies',
+        text: 'Install the default React packages.',
+        code: { lang: 'bash', value: 'npm install' }    
     },
     {
         type: 'section',
-        heading: '7. Start Development Server',
-        text: 'Run the local dev server with hot reload.',
+        heading: '6. Install React Router',
+        text: 'Add routing for multiple pages.',
+        code: { lang: 'bash', value: 'npm install react-router-dom' }
+    },
+    {
+        type: 'section',
+        heading: '7. Install Lucide Icons',
+        text: 'Add icons to your React interface.',
+        code: { lang: 'bash', value: 'npm install lucide-react' }
+    },
+    {
+        type: 'section',
+        heading: '8. Install Tailwind CSS',
+        text: 'Add Tailwind CSS for utility-based styling.',
+        code: { lang: 'bash', value: 'npm install tailwindcss @tailwindcss/vite' }
+    },
+    {
+        type: 'section',
+        heading: '9. Start Development Server',
+        text: 'Run the local development server with hot reload.',
         code: { lang: 'bash', value: 'npm run dev' }
     },
     {
         type: 'section',
-        heading: '8. Verify Installation',
+        heading: '10. Verify Installation',
         text: 'Open the printed local URL in your browser. You should see the default Vite + React starter page.',
         callout: { tone: 'success', text: 'If the page loads without errors, your setup is complete.' }
     }
@@ -75,16 +86,36 @@ const extraDocs = [
         icon: '🚀',
         description: "An overview of DevVault and how to navigate the documentation.",
         content: [
-        {
-            type: 'section',
-            heading: '1. What is DevVault',
-            text: "DevVault is a documentation hub for your team's stack: frontend, backend, database, auth, deployment, and more."
-        },
-        {
-            type: 'section',
-            heading: '2. How to navigate',
-            text: 'Use the sidebar categories or the search bar (Ctrl+K) to jump straight to a doc.'
-        }
+            {   
+                type: 'section', 
+                heading: '1. What is DevVault?', 
+                text: 'DevVault is a personal documentation hub for storing and organizing development guides, installation steps, commands, configurations, and troubleshooting notes. It helps you quickly find the information you need without having to remember every setup process.', 
+            }, 
+            { 
+                type: 'section', 
+                heading: '2. What can you store?', 
+                text: 'Create documentation for your entire development stack, including frontend, backend, databases, authentication, APIs, deployment, Git, and development tools. Each document can contain explanations, commands, code snippets, and helpful notes.', 
+            }, 
+            { 
+                type: 'section', 
+                heading: '3. How to navigate', 
+                text: 'Use the sidebar to browse documents by category, or use the search bar to quickly find a specific topic. Press Ctrl+K to open search from anywhere in the application.', 
+            }, 
+            {
+                type: 'section', 
+                heading: '4. Organize your documentation', 
+                text: 'Use categories and tags to keep your documents organized. Categories group related topics together, while tags make it easier to filter and find specific technologies or concepts.', 
+            }, 
+            { 
+                type: 'section', 
+                heading: '5. Create and manage documents', 
+                text: 'Create new documentation whenever you learn a new tool, install a dependency, or discover a useful solution. You can update existing documents as your development setup changes.', 
+            }, 
+            { 
+                type: 'section', 
+                heading: '6. Why use DevVault?', 
+                text: 'DevVault reduces the need to repeatedly search for installation guides or remember commands. Keep your own reliable development notes in one place and build a personal knowledge base you can reuse across projects.', callout: { tone: 'success', text: 'Document it once. Find it whenever you need it.' } 
+            }
         ],
         tags: ['javascript']
     },
