@@ -27,7 +27,7 @@ export default function DocPage() {
     const [copied, setCopied] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
     const [busy, setBusy] = useState(false);
-
+    /*
     useEffect(() => {
         setLoading(true);
         setError('');
@@ -39,6 +39,29 @@ export default function DocPage() {
         })
         .catch((err) => setError(err.message))
         .finally(() => setLoading(false));
+    }, [slug]);*/
+    useEffect(() =>{
+        if(!slug) return;
+        let cancelled = false;
+        api.getDocument(slug)
+            .then(({ document }) =>{
+                if(cancelled) return;
+                setDoc(document);
+                setBookmarked(document.isbookmarked);
+            })
+            .catch((err) =>{
+                if(!cancelled){
+                    setError(err.message);
+                }
+            })
+            .finally(() => {
+                if(!cancelled){
+                    setLoading(false);
+                }
+            });
+        return () => {
+            cancelled = true;
+        };
     }, [slug]);
 
     function copyLink() {

@@ -25,7 +25,7 @@ export default function Topbar({ onMenuClick }) {
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
     }, []);
-
+    /*
     useEffect(() => {
         if (!query.trim()) {
         setResults([]);
@@ -33,6 +33,20 @@ export default function Topbar({ onMenuClick }) {
         }
         const timeout = setTimeout(() => {
         api.getDocuments({ search: query }).then(({ documents }) => setResults(documents)).catch(() => {});
+        }, 200);
+        return () => clearTimeout(timeout);
+    }, [query]);*/
+    useEffect(() =>{
+        const timeout = setTimeout(() =>{
+            if(!query.trim()){
+                setResults([]);
+                return;
+            }
+            api.getDocuments({ search: query })
+                .then(({ documents}) =>{
+                    setResults(documents);
+                })
+                .catch(() => {});
         }, 200);
         return () => clearTimeout(timeout);
     }, [query]);
