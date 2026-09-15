@@ -2,20 +2,43 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock } from 'lucide-react';
 import { api } from '../lib/api';
-import { useAuth } from '../context/AuthContext';
+//import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { Breadcrumbs } from '../components/Bits';
 
 export default function Recent() {
     const { user } = useAuth();
     const [documents, setDocuments] = useState([]);
-    const [loading, setLoading] = useState(true);
+    //const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(() => !!user);
 
+    /*
     useEffect(() => {
         if (!user) {
         setLoading(false);
         return;
         }
         api.getRecentlyViewed().then(({ documents }) => setDocuments(documents)).finally(() => setLoading(false));
+    }, [user]);*/
+    useEffect(()=>{
+        if (!user) {
+            return; 
+        }
+        let cancelled = false;
+        api.getRecentlyViewed()
+            .then(({ documents }) =>{
+                if(!cancelled){
+                    setDocuments(documents);
+                }
+            })
+            .finally(() =>{
+                if(!cancelled){
+                    setLoading(false);
+                }
+            });
+            return ()=>{
+                cancelled = true;
+            };
     }, [user]);
 
     return (

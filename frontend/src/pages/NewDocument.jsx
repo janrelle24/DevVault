@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2 } from 'lucide-react';
 import { api } from '../lib/api';
-import { useAuth } from '../context/AuthContext';
+//import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { Breadcrumbs } from '../components/Bits';
 
 export default function NewDocument() {

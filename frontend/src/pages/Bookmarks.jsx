@@ -2,20 +2,42 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Bookmark } from 'lucide-react';
 import { api } from '../lib/api';
-import { useAuth } from '../context/AuthContext';
+//import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { Breadcrumbs } from '../components/Bits';
 
 export default function Bookmarks() {
     const { user } = useAuth();
     const [bookmarks, setBookmarks] = useState([]);
-    const [loading, setLoading] = useState(true);
-
+    //const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(() => !!user);
+    /*
     useEffect(() => {
         if (!user) {
         setLoading(false);
         return;
         }
         api.getBookmarks().then(({ bookmarks }) => setBookmarks(bookmarks)).finally(() => setLoading(false));
+    }, [user]);*/
+    useEffect(()=>{
+        if (!user) {
+            return; 
+        }
+        let cancelled = false;
+        api.getBookmarks()
+            .then(({ bookmarks }) =>{
+                if(!cancelled){
+                    setBookmarks(bookmarks);
+                }
+            })
+            .finally(() =>{
+                if(!cancelled){
+                    setLoading(false);
+                }
+            });
+        return () =>{
+            cancelled = true;
+        };
     }, [user]);
 
     return (

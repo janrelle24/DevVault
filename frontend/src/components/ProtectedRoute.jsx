@@ -1,7 +1,8 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+//import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
-export default function ProtectedRoute({ children }) { /**adminOnly = false */
+export default function ProtectedRoute({ children, adminOnly = false }) { /**adminOnly = false */
     const { user, loading } = useAuth();
     const location = useLocation();
 
@@ -12,7 +13,7 @@ export default function ProtectedRoute({ children }) { /**adminOnly = false */
     if (!user) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
-    /*
+    
     if (adminOnly && user.role !== 'admin') {
         return (
         <div className="p-10 text-center">
@@ -20,7 +21,7 @@ export default function ProtectedRoute({ children }) { /**adminOnly = false */
             <p className="text-sm text-vault-muted">You don't have permission to view this page.</p>
         </div>
         );
-    }*/
+    }
 
     return children;
 }

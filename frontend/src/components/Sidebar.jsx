@@ -2,7 +2,8 @@ import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Home, Grid2x2, Tag, Bookmark, Clock, Plus, Crown, LayoutDashboard } from 'lucide-react';
 import { api } from '../lib/api';
-import { useAuth } from '../context/AuthContext';
+//import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 const navItems = [
     { to: '/', icon: Home, label: 'Home', end: true },
@@ -16,14 +17,14 @@ export default function Sidebar({ open, onNavigate }) {
     const { user } = useAuth();
     const [categories, setCategories] = useState([]);
 
-    /*useEffect(() => {
+    useEffect(() => {
         api.getCategories()
             .then(({ categories }) => setCategories(categories))
             .catch((err) => {
                 console.error('Failed to load categories:', err);
                 setCategories([]);
             });
-    }, []);*/
+    }, []);
     useEffect(() => {
         api.getCategories()
             .then((data) => {
