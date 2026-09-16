@@ -10,7 +10,7 @@ export function Breadcrumbs({ items }) {
           <span key={i} className="flex items-center gap-2">
             {i > 0 && <ChevronRight size={14} className="text-vault-faint" />}
             {item.to && !isLast ? (
-              <Link to={item.to} className="hover:text-white transition-colors">
+              <Link to={item.to} className="hover:text-vault-text transition-colors">
                 {item.label}
               </Link>
             ) : (
@@ -34,7 +34,7 @@ const tagColors = {
 };
 
 export function TagBadge({ slug, name }) {
-  const classes = tagColors[slug] || 'bg-white/5 text-vault-muted border-vault-border';
+  const classes = tagColors[slug] || 'bg-black/5 dark:bg-white/5 text-vault-muted border-vault-border';
   return (
     <span className={`inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium ${classes}`}>
       {name}

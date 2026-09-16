@@ -1,16 +1,78 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────
+   DevVault Theme
+   ───────────────────────────────────────────── */
+
 @theme {
-    --color-vault-bg: #0f1117;
-    --color-vault-elevated: #171a23;
-    --color-vault-border: #2a2f3d;
-    --color-vault-text: #f5f7ff;
-    --color-vault-muted: #9aa4b8;
-    --color-vault-faint: #687386;
-    --color-vault-accent: #7c5cfc;
-    --color-vault-accent-hover: #6d4df5;
-    --color-vault-danger: #ef4444;
+    --color-vault-bg: rgb(var(--vault-bg));
+    --color-vault-panel: rgb(var(--vault-panel));
+    --color-vault-elevated: rgb(var(--vault-elevated));
+    --color-vault-border: rgb(var(--vault-border));
+
+    --color-vault-accent: rgb(var(--vault-accent));
+    --color-vault-accent-hover: rgb(var(--vault-accent-hover));
+
+    --color-vault-text: rgb(var(--vault-text));
+    --color-vault-muted: rgb(var(--vault-muted));
+    --color-vault-faint: rgb(var(--vault-faint));
+
+    --color-vault-success: rgb(var(--vault-success));
+    --color-vault-danger: rgb(var(--vault-danger));
 }
+
+/* ─────────────────────────────────────────────
+   Theme tokens
+   Default = light
+   .dark = dark
+   ───────────────────────────────────────────── */
+
+:root {
+    --vault-bg: 255 255 255;
+    --vault-panel: 246 246 249;
+    --vault-elevated: 255 255 255;
+    --vault-border: 228 228 235;
+
+    --vault-accent: 109 79 240;
+    --vault-accent-hover: 94 66 220;
+
+    --vault-text: 17 19 23;
+    --vault-muted: 90 94 110;
+    --vault-faint: 140 144 158;
+
+    --vault-success: 5 150 105;
+    --vault-danger: 220 38 38;
+
+    /* Fixed-alpha colors */
+    --vault-accent-soft: rgba(109, 79, 240, 0.08);
+    --vault-success-bg: #e3f7ef;
+    --vault-danger-bg: #fdeaea;
+}
+
+.dark {
+    --vault-bg: 10 11 16;
+    --vault-panel: 18 20 28;
+    --vault-elevated: 23 26 36;
+    --vault-border: 35 39 51;
+
+    --vault-accent: 124 92 252;
+    --vault-accent-hover: 109 79 240;
+
+    --vault-text: 242 242 245;
+    --vault-muted: 154 161 177;
+    --vault-faint: 95 101 118;
+
+    --vault-success: 52 211 153;
+    --vault-danger: 248 113 113;
+
+    --vault-accent-soft: rgba(124, 92, 252, 0.12);
+    --vault-success-bg: #0f2a20;
+    --vault-danger-bg: #341015;
+}
+
+/* ─────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────── */
 
 html,
 body,
@@ -19,20 +81,31 @@ body,
 }
 
 body {
-    background-color: var(--color-vault-bg);
-    color: var(--color-vault-text);
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: rgb(var(--vault-bg));
+    color: rgb(var(--vault-text));
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition:
+        background-color 150ms ease,
+        color 150ms ease;
 }
+
+/* ─────────────────────────────────────────────
+   Selection
+   ───────────────────────────────────────────── */
 
 ::selection {
     background: rgba(124, 92, 252, 0.35);
 }
 
+/* ─────────────────────────────────────────────
+   Scrollbar
+   ───────────────────────────────────────────── */
+
 * {
     scrollbar-width: thin;
-    scrollbar-color: #cfdaf8 transparent;
+    scrollbar-color: rgb(var(--vault-border)) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -41,9 +114,13 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #2a2f3d;
+    background-color: rgb(var(--vault-border));
     border-radius: 8px;
 }
+
+/* ─────────────────────────────────────────────
+   Focus
+   ───────────────────────────────────────────── */
 
 :focus-visible {
     outline: 2px solid #7c5cfc;

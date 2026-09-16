@@ -49,7 +49,7 @@ export default function AdminDashboard() {
   return (
     <div className="px-6 lg:px-10 py-8 max-w-5xl">
       <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Admin Dashboard' }]} />
-      <h1 className="text-3xl font-extrabold text-white tracking-tight mb-6">Admin Dashboard</h1>
+      <h1 className="text-3xl font-extrabold text-vault-text tracking-tight mb-6">Admin Dashboard</h1>
 
       <div className="flex gap-1 border-b border-vault-border mb-6">
         {tabs.map((t) => (
@@ -57,7 +57,7 @@ export default function AdminDashboard() {
             key={t}
             onClick={() => setTab(t)}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-              tab === t ? 'border-vault-accent text-white' : 'border-transparent text-vault-muted hover:text-white'
+              tab === t ? 'border-vault-accent text-vault-text' : 'border-transparent text-vault-muted hover:text-vault-text'
             }`}
           >
             {t}
@@ -83,7 +83,7 @@ export default function AdminDashboard() {
                 to={`/docs/${d.slug}`}
                 className="flex items-center justify-between rounded-lg border border-vault-border bg-vault-elevated px-4 py-3 hover:border-vault-accent/40 transition-colors"
               >
-                <span className="flex items-center gap-2.5 text-sm text-white">
+                <span className="flex items-center gap-2.5 text-sm text-vault-text">
                   <span>{d.icon}</span> {d.title}
                 </span>
                 <span className="text-xs text-vault-faint tabular-nums">{d.views} views</span>
@@ -107,9 +107,9 @@ export default function AdminDashboard() {
             </thead>
             <tbody>
               {documents.map((d) => (
-                <tr key={d.id} className="border-t border-vault-border hover:bg-white/5">
+                <tr key={d.id} className="border-t border-vault-border hover:bg-black/5 dark:hover:bg-white/5">
                   <td className="px-4 py-3">
-                    <Link to={`/docs/${d.slug}`} className="text-white font-medium hover:text-vault-accent">
+                    <Link to={`/docs/${d.slug}`} className="text-vault-text font-medium hover:text-vault-accent">
                       {d.icon} {d.title}
                     </Link>
                   </td>
@@ -145,8 +145,8 @@ export default function AdminDashboard() {
             </thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.id} className="border-t border-vault-border hover:bg-white/5">
-                  <td className="px-4 py-3 text-white font-medium">{u.name}</td>
+                <tr key={u.id} className="border-t border-vault-border hover:bg-black/5 dark:hover:bg-white/5">
+                  <td className="px-4 py-3 text-vault-text font-medium">{u.name}</td>
                   <td className="px-4 py-3 text-vault-muted">{u.email}</td>
                   <td className="px-4 py-3">
                     <span
@@ -163,7 +163,7 @@ export default function AdminDashboard() {
                   <td className="px-4 py-3 text-right">
                     <button
                       onClick={() => handleToggleRole(u)}
-                      className="flex items-center gap-1.5 text-xs text-vault-muted hover:text-white transition-colors ml-auto"
+                      className="flex items-center gap-1.5 text-xs text-vault-muted hover:text-vault-text transition-colors ml-auto"
                     >
                       {u.role === 'admin' ? <ShieldOff size={13} /> : <Shield size={13} />}
                       {u.role === 'admin' ? 'Revoke admin' : 'Make admin'}
@@ -183,7 +183,7 @@ function StatCard({ icon: Icon, label, value }) {
   return (
     <div className="rounded-xl border border-vault-border bg-vault-elevated p-4">
       <Icon size={18} className="text-vault-accent mb-2" />
-      <p className="text-2xl font-bold text-white tabular-nums">{value ?? '—'}</p>
+      <p className="text-2xl font-bold text-vault-text tabular-nums">{value ?? '—'}</p>
       <p className="text-xs text-vault-faint">{label}</p>
     </div>
   );

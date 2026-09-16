@@ -25,123 +25,112 @@ export default function Sidebar({ open, onNavigate }) {
                 setCategories([]);
             });
     }, []);
-    useEffect(() => {
-        api.getCategories()
-            .then((data) => {
-                console.log('Categories API response:', data);
-                setCategories(data.categories || []);
-            })
-            .catch((err) => {
-                console.error('Failed to load categories:', err);
-                setCategories([]);
-            });
-    }, []);
-
+    
     return (
         <aside
-        className={`fixed lg:static inset-y-0 left-0 z-40 w-72 shrink-0 bg-vault-panel border-r border-vault-border
-        flex flex-col transform transition-transform duration-200 lg:transform-none
-        ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
-        >
-        {/* Logo */}
-        <div className="h-[65px] flex items-center gap-2.5 px-5 border-b border-vault-border shrink-0">
-            <div className="h-8 w-8 rounded-lg bg-vault-accent flex items-center justify-center text-white font-bold text-sm">
-            DV
+            className={`fixed lg:static inset-y-0 left-0 z-40 w-72 shrink-0 bg-vault-panel border-r border-vault-border
+            flex flex-col transform transition-transform duration-200 lg:transform-none
+            ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+            >
+            {/* Logo */}
+            <div className="h-[65px] flex items-center gap-2.5 px-5 border-b border-vault-border shrink-0">
+                <div className="h-8 w-8 rounded-lg bg-vault-accent flex items-center justify-center text-white font-bold text-sm">
+                DV
+                </div>
+                <span className="text-vault-text font-bold text-lg tracking-tight">DevVault</span>
             </div>
-            <span className="text-white font-bold text-lg tracking-tight">DevVault</span>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-3 py-4">
-            {user?.role === 'admin' && (
-            <button
-                onClick={() => onNavigate?.('/new')}
-                className="w-full flex items-center justify-center gap-2 rounded-lg bg-vault-accent hover:bg-vault-accent-hover
-                text-white text-sm font-semibold py-2.5 mb-5 transition-colors shadow-glow"
-            >
-                <Plus size={16} strokeWidth={2.5} /> New Document
-            </button>
-            )}
-
-            <nav className="space-y-1 mb-6">
-            {navItems.map(({ to, icon: Icon, label, end }) => (
-                <NavLink
-                key={to}
-                to={to}
-                end={end}
-                onClick={() => onNavigate?.()}
-                className={({ isActive }) =>
-                    `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive
-                        ? 'bg-vault-accent-soft text-vault-accent border border-vault-accent/30'
-                        : 'text-vault-muted hover:text-white hover:bg-white/5'
-                    }`
-                }
+        
+            <div className="flex-1 overflow-y-auto px-3 py-4">
+                {user?.role === 'admin' && (
+                <button
+                    onClick={() => onNavigate?.('/new')}
+                    className="w-full flex items-center justify-center gap-2 rounded-lg bg-vault-accent hover:bg-vault-accent-hover
+                    text-white text-sm font-semibold py-2.5 mb-5 transition-colors shadow-glow"
                 >
-                <Icon size={17} />
-                {label}
-                </NavLink>
-            ))}
-            </nav>
-
-            {user?.role === 'admin' && (
-            <NavLink
-                to="/admin"
-                onClick={() => onNavigate?.()}
-                className={({ isActive }) =>
-                `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors mb-6 ${
-                    isActive
-                    ? 'bg-vault-accent-soft text-vault-accent border border-vault-accent/30'
-                    : 'text-vault-muted hover:text-white hover:bg-white/5'
-                }`
-                }
-            >
-                <LayoutDashboard size={17} />
-                Admin Dashboard
-            </NavLink>
-            )}
-
-            <p className="px-3 text-xs font-semibold tracking-wide text-vault-faint mb-2">Categories</p>
-            <nav className="space-y-0.5">
-            {categories.map((c) => (
-                <NavLink
-                key={c.slug}
-                to={`/categories/${c.slug}`}
-                onClick={() => onNavigate?.()}
-                className={({ isActive }) =>
-                    `flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
-                    isActive ? 'text-vault-accent bg-vault-accent-soft' : 'text-vault-muted hover:text-white hover:bg-white/5'
-                    }`
-                }
-                >
-                <span className="flex items-center gap-2.5 truncate">
-                    <span className="text-base leading-none">{c.icon}</span>
-                    <span className="truncate">{c.name}</span>
-                </span>
-                {c.doc_count > 0 && (
-                    <span className="text-xs text-vault-faint tabular-nums">{c.doc_count}</span>
+                    <Plus size={16} strokeWidth={2.5} /> New Document
+                </button>
                 )}
+        
+                <nav className="space-y-1 mb-6">
+                {navItems.map(({ to, icon: Icon, label, end }) => (
+                    <NavLink
+                    key={to}
+                    to={to}
+                    end={end}
+                    onClick={() => onNavigate?.()}
+                    className={({ isActive }) =>
+                        `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                        isActive
+                            ? 'bg-vault-accent-soft text-vault-accent border border-vault-accent/30'
+                            : 'text-vault-muted hover:text-vault-text hover:bg-black/5 dark:hover:bg-white/5'
+                        }`
+                    }
+                    >
+                    <Icon size={17} />
+                    {label}
+                    </NavLink>
+                ))}
+                </nav>
+        
+                {user?.role === 'admin' && (
+                <NavLink
+                    to="/admin"
+                    onClick={() => onNavigate?.()}
+                    className={({ isActive }) =>
+                    `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors mb-6 ${
+                        isActive
+                        ? 'bg-vault-accent-soft text-vault-accent border border-vault-accent/30'
+                        : 'text-vault-muted hover:text-vault-text hover:bg-black/5 dark:hover:bg-white/5'
+                    }`
+                    }
+                >
+                    <LayoutDashboard size={17} />
+                    Admin Dashboard
                 </NavLink>
-            ))}
-            </nav>
-        </div>
-
-        {!user && (
-            <div className="m-3 rounded-xl border border-vault-border bg-vault-elevated p-4">
-            <div className="flex items-center gap-2 text-sm font-semibold text-white mb-1.5">
-                <Crown size={15} className="text-amber-400" /> Pro Tip
+                )}
+        
+                <p className="px-3 text-xs font-semibold tracking-wide text-vault-faint mb-2">Categories</p>
+                <nav className="space-y-0.5">
+                {categories.map((c) => (
+                    <NavLink
+                    key={c.slug}
+                    to={`/categories/${c.slug}`}
+                    onClick={() => onNavigate?.()}
+                    className={({ isActive }) =>
+                        `flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                        isActive ? 'text-vault-accent bg-vault-accent-soft' : 'text-vault-muted hover:text-vault-text hover:bg-black/5 dark:hover:bg-white/5'
+                        }`
+                    }
+                    >
+                    <span className="flex items-center gap-2.5 truncate">
+                        <span className="text-base leading-none">{c.icon}</span>
+                        <span className="truncate">{c.name}</span>
+                    </span>
+                    {c.doc_count > 0 && (
+                        <span className="text-xs text-vault-faint tabular-nums">{c.doc_count}</span>
+                    )}
+                    </NavLink>
+                ))}
+                </nav>
             </div>
-            <p className="text-xs text-vault-muted leading-relaxed mb-3">
-                Create an account to bookmark your favorite docs and track your learning progress.
-            </p>
-            <NavLink
-                to="/signup"
-                onClick={() => onNavigate?.()}
-                className="block text-center rounded-lg bg-vault-accent hover:bg-vault-accent-hover text-white text-sm font-semibold py-2 transition-colors"
-            >
-                Create Account
-            </NavLink>
-            </div>
-        )}
+        
+            {!user && (
+                <div className="m-3 rounded-xl border border-vault-border bg-vault-elevated p-4">
+                <div className="flex items-center gap-2 text-sm font-semibold text-vault-text mb-1.5">
+                    <Crown size={15} className="text-amber-400" /> Pro Tip
+                </div>
+                <p className="text-xs text-vault-muted leading-relaxed mb-3">
+                    Create an account to bookmark your favorite docs and track your learning progress.
+                </p>
+                <NavLink
+                    to="/signup"
+                    onClick={() => onNavigate?.()}
+                    className="block text-center rounded-lg bg-vault-accent hover:bg-vault-accent-hover text-white text-sm font-semibold py-2 transition-colors"
+                >
+                    Create Account
+                </NavLink>
+                </div>
+            )}
         </aside>
     );
 }

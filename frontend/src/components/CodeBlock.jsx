@@ -20,7 +20,7 @@ export default function CodeBlock({ lang = 'bash', value }) {
             <span className="text-xs font-mono text-vault-faint">{lang}</span>
             <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 text-xs text-vault-muted hover:text-white transition-colors"
+            className="flex items-center gap-1.5 text-xs text-vault-muted hover:text-vault-text transition-colors"
             >
             {copied ? <Check size={13} className="text-vault-success" /> : <Copy size={13} />}
             {copied ? 'Copied' : 'Copy'}

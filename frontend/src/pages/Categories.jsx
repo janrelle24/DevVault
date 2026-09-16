@@ -12,21 +12,21 @@ export function CategoriesList() {
 
     return (
         <div className="px-6 lg:px-10 py-8 max-w-5xl">
-        <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Categories' }]} />
-        <h1 className="text-3xl font-extrabold text-white tracking-tight mb-6">Categories</h1>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {categories.map((c) => (
-            <Link
-                key={c.slug}
-                to={`/categories/${c.slug}`}
-                className="rounded-xl border border-vault-border bg-vault-elevated p-4 hover:border-vault-accent/40 transition-colors"
-            >
-                <span className="text-2xl block mb-2">{c.icon}</span>
-                <span className="block text-sm font-semibold text-white truncate">{c.name}</span>
-                <span className="block text-xs text-vault-faint mt-0.5">{c.doc_count} docs</span>
-            </Link>
-            ))}
-        </div>
+            <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Categories' }]} />
+            <h1 className="text-3xl font-extrabold text-vault-text tracking-tight mb-6">Categories</h1>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {categories.map((c) => (
+                <Link
+                    key={c.slug}
+                    to={`/categories/${c.slug}`}
+                    className="rounded-xl border border-vault-border bg-vault-elevated p-4 hover:border-vault-accent/40 transition-colors"
+                >
+                    <span className="text-2xl block mb-2">{c.icon}</span>
+                    <span className="block text-sm font-semibold text-vault-text truncate">{c.name}</span>
+                    <span className="block text-xs text-vault-faint mt-0.5">{c.doc_count} docs</span>
+                </Link>
+                ))}
+            </div>
         </div>
     );
     }
@@ -48,7 +48,7 @@ export function CategoriesList() {
         <Breadcrumbs items={[{ label: 'Home', to: '/' }, { label: 'Categories', to: '/categories' }, { label: category.name }]} />
         <div className="flex items-center gap-3 mb-6">
             <span className="text-3xl">{category.icon}</span>
-            <h1 className="text-3xl font-extrabold text-white tracking-tight">{category.name}</h1>
+            <h1 className="text-3xl font-extrabold text-vault-text tracking-tight">{category.name}</h1>
         </div>
 
         {documents.length === 0 ? (
@@ -64,7 +64,7 @@ export function CategoriesList() {
                 <div className="flex items-start gap-3">
                     <span className="text-xl">{doc.icon}</span>
                     <div className="min-w-0">
-                    <p className="text-sm font-semibold text-white truncate">{doc.title}</p>
+                    <p className="text-sm font-semibold text-vault-text truncate">{doc.title}</p>
                     <p className="text-xs text-vault-faint mt-1 line-clamp-2">{doc.description}</p>
                     </div>
                 </div>

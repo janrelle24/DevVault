@@ -17,7 +17,7 @@ export default function ProtectedRoute({ children, adminOnly = false }) { /**adm
     if (adminOnly && user.role !== 'admin') {
         return (
         <div className="p-10 text-center">
-            <p className="text-lg font-semibold text-white mb-1">Admin access required</p>
+            <p className="text-lg font-semibold text-vault-text mb-1">Admin access required</p>
             <p className="text-sm text-vault-muted">You don't have permission to view this page.</p>
         </div>
         );

@@ -11,7 +11,7 @@ import Recent from './pages/Recent';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import NewDocument from './pages/NewDocument';
-import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -58,7 +58,7 @@ export default function App() {
               path="/admin"
               element={
                 <ProtectedRoute adminOnly>
-                  <Dashboard />
+                  <AdminDashboard />
                 </ProtectedRoute>
               }
             />
