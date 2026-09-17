@@ -55,7 +55,7 @@ export function AuthProvider({ children }) {
 
         return user;
     }, []);
-
+    {/*
     const signup = useCallback(async (name, email, password) => {
         const { token, user } = await api.signup({
             name,
@@ -66,6 +66,12 @@ export function AuthProvider({ children }) {
         localStorage.setItem('devvault_token', token);
         setUser(user);
 
+        return user;
+    }, []);*/}
+    const signup = useCallback(async (name, email, password) => {
+        // Intentionally does NOT store the token or set user state — creating an
+        // account should not auto-log the person in. They're sent to /login afterward.
+        const { user } = await api.signup({ name, email, password });
         return user;
     }, []);
 
