@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 //import { useAuth } from '../context/AuthContext'
 import { useAuth } from '../hooks/useAuth';
+import logoDark from '../assets/DevVault-Logo2.png';
+import logoLight from '../assets/DevVault-Logo-LightMode.png';
 
 export default function Login() {
     const { login } = useAuth();
@@ -31,8 +33,18 @@ export default function Login() {
             <div className="min-h-[calc(100vh-65px)] flex items-center justify-center px-4">
             <div className="w-full max-w-sm">
                 <div className="text-center mb-8">
-                <div className="h-10 w-10 rounded-lg bg-vault-accent flex items-center justify-center text-white font-bold mx-auto mb-3">
-                    DV
+                
+                <div className="flex justify-center mb-5">
+                    <img
+                        src={logoLight}
+                        alt="DevVault"
+                        className="w-30 h-auto object-contain dark:hidden"
+                    />
+                    <img
+                        src={logoDark}
+                        alt="DevVault"
+                        className="hidden w-30 h-auto object-contain dark:block"
+                    />
                 </div>
                 <h1 className="text-2xl font-extrabold text-vault-text">Welcome back</h1>
                 <p className="text-sm text-vault-muted mt-1">Log in to continue to DevVault</p>

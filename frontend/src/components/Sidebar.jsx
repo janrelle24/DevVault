@@ -4,6 +4,8 @@ import { Home, Grid2x2, Tag, Bookmark, Clock, Plus, Crown, LayoutDashboard } fro
 import { api } from '../lib/api';
 //import { useAuth } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
+import logoDark from '../assets/DevVault-Logo2.png';
+import logoLight from '../assets/DevVault-Logo-LightMode.png';
 
 const navItems = [
     { to: '/', icon: Home, label: 'Home', end: true },
@@ -32,12 +34,27 @@ export default function Sidebar({ open, onNavigate }) {
             flex flex-col transform transition-transform duration-200 lg:transform-none
             ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
             >
-            {/* Logo */}
+            {/* Logo 
             <div className="h-[65px] flex items-center gap-2.5 px-5 border-b border-vault-border shrink-0">
                 <div className="h-8 w-8 rounded-lg bg-vault-accent flex items-center justify-center text-white font-bold text-sm">
                 DV
                 </div>
                 <span className="text-vault-text font-bold text-lg tracking-tight">DevVault</span>
+            </div>*/}
+            <div className="h-[65px] flex items-center justify-center px-5 border-b border-vault-border shrink-0">
+                <div className="h-20 w-20 rounded-lg flex items-center justify-center">
+                    <img
+                        src={logoLight}
+                        alt="DevVault"
+                        className="w-full h-full object-contain dark:hidden"
+                    />
+
+                    <img
+                        src={logoDark}
+                        alt="DevVault"
+                        className="hidden w-full h-full object-contain dark:block"
+                    />
+                </div>
             </div>
         
             <div className="flex-1 overflow-y-auto px-3 py-4">
