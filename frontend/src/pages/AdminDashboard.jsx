@@ -95,84 +95,88 @@ export default function AdminDashboard() {
 
       {tab === 'Documents' && (
         <div className="rounded-xl border border-vault-border overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-vault-elevated text-left text-xs text-vault-faint uppercase tracking-wide">
-                <th className="px-4 py-3 font-medium">Title</th>
-                <th className="px-4 py-3 font-medium">Category</th>
-                <th className="px-4 py-3 font-medium">Views</th>
-                <th className="px-4 py-3 font-medium">Updated</th>
-                <th className="px-4 py-3 font-medium"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {documents.map((d) => (
-                <tr key={d.id} className="border-t border-vault-border hover:bg-black/5 dark:hover:bg-white/5">
-                  <td className="px-4 py-3">
-                    <Link to={`/docs/${d.slug}`} className="text-vault-text font-medium hover:text-vault-accent">
-                      {d.icon} {d.title}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-3 text-vault-muted">{d.category_name || '—'}</td>
-                  <td className="px-4 py-3 text-vault-muted tabular-nums">{d.views}</td>
-                  <td className="px-4 py-3 text-vault-faint">{new Date(d.updated_at).toLocaleDateString()}</td>
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={() => handleDeleteDoc(d.slug)}
-                      className="text-vault-faint hover:text-vault-danger transition-colors"
-                    >
-                      <Trash2 size={15} />
-                    </button>
-                  </td>
+          <div className= "overflow-x-auto">
+            <table className="w-full min-w-[700px] text-sm">
+              <thead>
+                <tr className="bg-vault-elevated text-left text-xs text-vault-faint uppercase tracking-wide">
+                  <th className="px-4 py-3 font-medium">Title</th>
+                  <th className="px-4 py-3 font-medium">Category</th>
+                  <th className="px-4 py-3 font-medium">Views</th>
+                  <th className="px-4 py-3 font-medium">Updated</th>
+                  <th className="px-4 py-3 font-medium"></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {documents.map((d) => (
+                  <tr key={d.id} className="border-t border-vault-border hover:bg-black/5 dark:hover:bg-white/5">
+                    <td className="px-4 py-3">
+                      <Link to={`/docs/${d.slug}`} className="text-vault-text font-medium hover:text-vault-accent">
+                        {d.icon} {d.title}
+                      </Link>
+                    </td>
+                    <td className="px-4 py-3 text-vault-muted">{d.category_name || '—'}</td>
+                    <td className="px-4 py-3 text-vault-muted tabular-nums">{d.views}</td>
+                    <td className="px-4 py-3 text-vault-faint">{new Date(d.updated_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        onClick={() => handleDeleteDoc(d.slug)}
+                        className="text-vault-faint hover:text-vault-danger transition-colors"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
       {tab === 'Users' && (
         <div className="rounded-xl border border-vault-border overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-vault-elevated text-left text-xs text-vault-faint uppercase tracking-wide">
-                <th className="px-4 py-3 font-medium">Name</th>
-                <th className="px-4 py-3 font-medium">Email</th>
-                <th className="px-4 py-3 font-medium">Role</th>
-                <th className="px-4 py-3 font-medium">Joined</th>
-                <th className="px-4 py-3 font-medium"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((u) => (
-                <tr key={u.id} className="border-t border-vault-border hover:bg-black/5 dark:hover:bg-white/5">
-                  <td className="px-4 py-3 text-vault-text font-medium">{u.name}</td>
-                  <td className="px-4 py-3 text-vault-muted">{u.email}</td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`text-xs font-medium rounded-md px-2 py-0.5 border ${
-                        u.role === 'admin'
-                          ? 'border-vault-accent/40 text-vault-accent bg-vault-accent-soft'
-                          : 'border-vault-border text-vault-muted'
-                      }`}
-                    >
-                      {u.role}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-vault-faint">{new Date(u.created_at).toLocaleDateString()}</td>
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={() => handleToggleRole(u)}
-                      className="flex items-center gap-1.5 text-xs text-vault-muted hover:text-vault-text transition-colors ml-auto"
-                    >
-                      {u.role === 'admin' ? <ShieldOff size={13} /> : <Shield size={13} />}
-                      {u.role === 'admin' ? 'Revoke admin' : 'Make admin'}
-                    </button>
-                  </td>
+          <div className= "overflow-x-auto">
+            <table className="w-full min-w-[700px] text-sm">
+              <thead>
+                <tr className="bg-vault-elevated text-left text-xs text-vault-faint uppercase tracking-wide">
+                  <th className="px-4 py-3 font-medium">Name</th>
+                  <th className="px-4 py-3 font-medium">Email</th>
+                  <th className="px-4 py-3 font-medium">Role</th>
+                  <th className="px-4 py-3 font-medium">Joined</th>
+                  <th className="px-4 py-3 font-medium"></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {users.map((u) => (
+                  <tr key={u.id} className="border-t border-vault-border hover:bg-black/5 dark:hover:bg-white/5">
+                    <td className="px-4 py-3 text-vault-text font-medium">{u.name}</td>
+                    <td className="px-4 py-3 text-vault-muted">{u.email}</td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={`text-xs font-medium rounded-md px-2 py-0.5 border ${
+                          u.role === 'admin'
+                            ? 'border-vault-accent/40 text-vault-accent bg-vault-accent-soft'
+                            : 'border-vault-border text-vault-muted'
+                        }`}
+                      >
+                        {u.role}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-vault-faint">{new Date(u.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        onClick={() => handleToggleRole(u)}
+                        className="flex items-center gap-1.5 text-xs text-vault-muted hover:text-vault-text transition-colors ml-auto"
+                      >
+                        {u.role === 'admin' ? <ShieldOff size={13} /> : <Shield size={13} />}
+                        {u.role === 'admin' ? 'Revoke admin' : 'Make admin'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
