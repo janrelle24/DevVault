@@ -120,15 +120,108 @@ const extraDocs = [
         tags: ['javascript']
     },
     {
-        category: 'backend-node.js',
+        category: 'backend-nodejs',
         title: 'Node.js API Setup',
         icon: '🟢',
-        description: 'Bootstrap an Express API server from scratch.',
+        description: 'A step-by-step guide for setting up a Node.js backend with commonly used server, database, authentication, validation, and security packages.',
         content: [
-        { type: 'section', heading: '1. Init project', text: 'Create a new Node project.', code: { lang: 'bash', value: 'npm init -y' } },
-        { type: 'section', heading: '2. Install Express', text: 'Add the Express framework.', code: { lang: 'bash', value: 'npm install express' } }
+        { type: 'section', heading: '1. Check Node.js', text: 'Make sure Node.js is installed.', code: { lang: 'bash', value: 'node -v' }, callout: { tone: 'success', text: 'Use a current LTS version of Node.js.' } },
+        { type: 'section', heading: '2. Check npm', text: 'npm is included with Node.js.', code: { lang: 'bash', value: 'npm -v' } },
+        { type: 'section', heading: '3. Create Backend Project', text: 'Create a folder and initialize a Node.js project.', code: { lang: 'bash', value: 'mkdir backend\ncd backend\nnpm init -y' } },
+        { type: 'section', heading: '4. Install Express', text: 'Use Express to build your backend server and API.', code: { lang: 'bash', value: 'npm install express' } },
+        { type: 'section', heading: '5. Install CORS', text: 'Allow your frontend and backend to communicate across different origins.', code: { lang: 'bash', value: 'npm install cors' } },
+        { type: 'section', heading: '6. Install dotenv', text: 'Load environment variables from a .env file.', code: { lang: 'bash', value: 'npm install dotenv' } },
+        { type: 'section', heading: '7. Install Nodemon', text: 'Automatically restart the server when files change.', code: { lang: 'bash', value: 'npm install --save-dev nodemon' } },
+        { type: 'section', heading: '8. Install PostgreSQL', text: 'Use pg to connect your Node.js backend to PostgreSQL.', code: { lang: 'bash', value: 'npm install pg' } },
+        { type: 'section', heading: '9. Install bcryptjs', text: 'Hash user passwords before storing them in the database.', code: { lang: 'bash', value: 'npm install bcryptjs' } },
+        { type: 'section', heading: '10. Install JWT', text: 'Use JSON Web Tokens for authentication and protected routes.', code: { lang: 'bash', value: 'npm install jsonwebtoken' } },
+        { type: 'section', heading: '11. Install Express Validator', text: 'Validate and sanitize incoming request data.', code: { lang: 'bash', value: 'npm install express-validator' } },
+        { type: 'section', heading: '12. Install Rate Limit', text: 'Limit repeated requests to help protect API endpoints.', code: { lang: 'bash', value: 'npm install express-rate-limit' } },
+        { type: 'section', heading: '13. Install Slugify', text: 'Create URL-friendly slugs from text.', code: { lang: 'bash', value: 'npm install slugify' } },
+        { type: 'section', heading: '14. Start Development Server', text: 'Use Nodemon to run the backend during development.', code: { lang: 'bash', value: 'npm run dev' }, callout: { tone: 'success', text: 'Your Node.js backend is ready for development.' } },
         ],
-        tags: ['node.js', 'express']
+        tags: ['node-js', 'express']
+    },
+    {
+        category: 'backend-nodejs',
+        title: 'Express.js Routes Examples',
+        icon: '🛣️',
+        description: 'Common Express.js route patterns for creating API endpoints, handling requests, using parameters, and organizing backend routes.',
+        content: [
+            { type: 'section', heading: '1. Basic GET Route', text: 'Create a GET endpoint to return data to the client.', code: { lang: 'javascript', value: `app.get('/api/users', (req, res) => {
+                res.json({ message: 'Get users' });
+            });`} },
+            { type: 'section', heading: '2. POST Route', text: 'Create a POST endpoint to receive data from the client.', code: { lang: 'javascript', 
+                value: `app.post('/api/users', (req, res) => {
+                    const { name, email } = req.body;
+                
+                    res.json({
+                        message: 'User created',
+                        user: { name, email }
+                    });
+                });`
+            } },
+            { type: 'section', heading: '3. PUT Route', text: 'Use PUT to replace or update an existing resource.', code: { lang: 'javascript', value: `app.put('/api/users/:id', (req, res) => {
+                const { id } = req.params;
+                const { name, email } = req.body;
+            
+                res.json({
+                    message: 'User updated',
+                    id,
+                    name,
+                    email
+                });
+            });`} },
+            { type: 'section', heading: '4. PATCH Route',  text: 'Use PATCH to update specific fields of an existing resource.', code: { lang: 'javascript', value: `app.patch('/api/users/:id', (req, res) => {
+                const { id } = req.params;
+            
+                res.json({
+                    message: 'User partially updated',
+                    id
+                });
+            });`} },
+            { type: 'section', heading: '5. DELETE Route', text: 'Create a DELETE endpoint to remove a resource.', code: { lang: 'javascript', value: `app.delete('/api/users/:id', (req, res) => {
+                const { id } = req.params;
+            
+                res.json({
+                    message: 'User deleted',
+                    id
+                });
+            });`} },
+            { type: 'section', heading: '6. Route Parameters', text: 'Use route parameters to access values directly from the URL.', code: { lang: 'javascript', value: `app.get('/api/users/:id', (req, res) => {
+                const { id } = req.params;
+            
+                res.json({ userId: id });
+            });`}, callout: { tone: 'success', text: 'Example: GET /api/users/123 returns id 123.' } },
+            { type: 'section', heading: '7. Query Parameters', text: 'Use query parameters for filtering, searching, or pagination.', code: { lang: 'javascript', value: `app.get('/api/users', (req, res) => {
+                const { search, page } = req.query;
+            
+                res.json({ search, page });
+            });`}, callout: {  tone: 'success', text: 'Example: GET /api/users?search=jan&page=1'} },
+            { type: 'section', type: 'section', text: 'Move related routes into a separate router file to keep the server organized.', code: { lang: 'javascript', value: `const express = require('express');
+                const router = express.Router();
+                
+                router.get('/', (req, res) => {
+                    res.json({ message: 'Get users' });
+                });
+                
+                router.post('/', (req, res) => {
+                    res.json({ message: 'Create user' });
+                });
+                
+                module.exports = router;`} },
+            { type: 'section', heading: '9. Register the Router', text: 'Import the router into your server and add a base API path.', code: { lang: 'javascript', value: `const userRoutes = require('./routes/userRoutes');
+
+                app.use('/api/users', userRoutes);`}, callout: { tone: 'success', text: 'Routes are now available under /api/users.'} },
+            { type: 'section', heading: '10. Common API Structure', text: 'A typical REST API uses HTTP methods for different operations.', code: { lang: 'text', value: `GET     /api/users       → Get users
+                GET     /api/users/:id   → Get one user
+                POST    /api/users       → Create user
+                PUT     /api/users/:id   → Update user
+                PATCH   /api/users/:id   → Partially update user
+                DELETE  /api/users/:id   → Delete user`}}
+
+        ],
+        tags: ['node-js', 'express', 'api', 'routes', 'rest']
     },
     {
         category: 'database',
@@ -260,6 +353,7 @@ async function seed() {
         );
 
         // React Installation doc (matches the mockup)
+        /**ON CONFLICT (slug) DO UPDATE SET content = EXCLUDED.content, updated_at = now() */
         const docRes = await client.query(
         `INSERT INTO documents (category_id, title, slug, icon, description, content, author_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -288,16 +382,18 @@ async function seed() {
         }
 
         // Additional sample docs
+        /**ON CONFLICT (slug) DO UPDATE SET content = EXCLUDED.content, updated_at = now() */
         for (const d of extraDocs) {
         const slug = slugify(d.title, { lower: true, strict: true });
         const res = await client.query(
             `INSERT INTO documents (category_id, title, slug, icon, description, content, author_id)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
-            ON CONFLICT (slug) DO UPDATE SET content = EXCLUDED.content, updated_at = now()
+            ON CONFLICT (slug) DO UPDATE SET category_id = EXCLUDED.category_id, content = EXCLUDED.content, updated_at = now()
             RETURNING id`,
             [categoryIds[d.category] || null, d.title, slug, d.icon, d.description, JSON.stringify(d.content), adminId]
         );
         const id = res.rows[0].id;
+        
         for (const t of d.tags) {
             if (tagIds[t]) {
             await client.query(
@@ -306,6 +402,7 @@ async function seed() {
             );
             }
         }
+    
         }
 
         await client.query('COMMIT');
