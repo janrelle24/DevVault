@@ -1,7 +1,7 @@
 -- DevVault PostgreSQL schema
 --
--- Run with:
--- psql -U devvault_user -d devvault -f schema.sql
+-- Run using the configured DATABASE_URL:
+-- npm run db:migrate
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 

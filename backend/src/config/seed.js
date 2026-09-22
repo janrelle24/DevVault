@@ -13,7 +13,7 @@ const categories = [
     { name: 'Troubleshooting', icon: '🐞', sort_order: 8 }
 ];
 
-const tags = ['React', 'Vite', 'JavaScript', 'Node.js', 'PostgreSQL', 'Express', 'Auth', 'Deployment'];
+const tags = ['React', 'Vite', 'JavaScript', 'Node.js', 'PostgreSQL', 'Express', 'Auth', 'Deployment', 'API', 'Routes', 'REST'];
 
 const reactInstallContent = [
     {
