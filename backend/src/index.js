@@ -13,7 +13,7 @@ const adminRoutes = require('./routes/admin');
 
 
 /*environment validation*/
-const requiredEnv = ['JWT_SECRET', 'CLIENT_ORIGIN'];
+const requiredEnv = ['DATABASE_URL', 'JWT_SECRET', 'CLIENT_ORIGIN'];
 for (const name of requiredEnv){
     if(!process.env[name]){
         console.error(` Missing required environment variable: ${name}`);
