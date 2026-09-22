@@ -1,17 +1,28 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
 const db = require('../config/db');
 const { requireAuth } = require('../middleware/auth');
 
 const router = express.Router();
-
+/*authentication rate limit */
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        error: 'Too many authentication attempts. Please try again later.'
+    }
+});
+/*JWT */
 function signToken(user){
     return jwt.sign(
         { sub: user.id, email: user.email, name: user.name, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+        { expiresIn: process.env.JWT_EXPIRES_IN || '7d', algorithm: 'HS256' }
     );
 }
 
@@ -20,10 +31,11 @@ function signToken(user){
 
 router.post(
     '/signup',
+    authLimiter,
     [
-        body('name').trim().isLength({ min: 8}).withMessage('Name must be at least 8 characters.'),
-        body('email').isEmail().withMessage('A valid email is required.'),
-        body('password').isLength({ min: 8}).withMessage('Password must be 8 characters.')
+        body('name').trim().isLength({ min: 2, max: 10 }).withMessage('Name must be between 2 and characters.'),
+        body('email').trim().isEmail().normalizeEmail().withMessage('A valid email is required.'),
+        body('password').isString().isLength({ min: 8, max: 15}).withMessage('Password must be between 8 and 15 characters.')
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -33,16 +45,19 @@ router.post(
         const { name, email, password } = req.body;
 
         try{
-            const existing = await db.query('SELECT id FROM users WHERE email = $1', [email.toLowerCase()]);
+            const normalizedEmail = email.toLowerCase();
+            const existing = await db.query('SELECT id FROM users WHERE email = $1', [normalizedEmail]);
             if(existing.rows.length){
                 return res.status(409).json({ error: 'An account with this email already exists.'});
             }
-            const passwordHash = await bcrypt.hash(password, 10);
+            const passwordHash = await bcrypt.hash(password, 12);
+            // IMPORTANT:
+            // Public signup can ONLY create a regular user.
             const result = await db.query(
                 `INSERT INTO users (name, email, password_hash, role)
                 VALUES ($1, $2, $3, 'user')
                 RETURNING id, name, email, role, created_at`,
-                [name, email.toLowerCase(), passwordHash]
+                [name, normalizedEmail, passwordHash]
             );
             const user = result.rows[0];
             const token = signToken(user);
@@ -50,7 +65,15 @@ router.post(
 
         }catch(err){
             console.error(err);
-            res.status(500).json({  error: 'Could not create account.'});
+
+            // PostgreSQL unique violation
+            if (err.code === '23505') {
+                return res.status(409).json({
+                    error: 'An account with this email already exists.'
+                });
+            }
+
+            return res.status(500).json({  error: 'Could not create account.'});
         }
     }
     
@@ -58,9 +81,10 @@ router.post(
 
 router.post(
     '/login',
+    authLimiter,
     [
-        body('email').isEmail().withMessage('A valid email is required.'),
-        body('password').notEmpty().withMessage('Password is required.')
+        body('email').trim().isEmail().normalizeEmail().withMessage('A valid email is required.'),
+        body('password').isString().notEmpty().withMessage('Password is required.')
     ],
     async (req, res) =>{
         const errors = validationResult(req);
@@ -69,7 +93,9 @@ router.post(
         }
         const { email, password } = req.body;
         try{
-            const result = await db.query('SELECT * FROM users WHERE email = $1', [email.toLowerCase()]);
+            const normalizedEmail = email.toLowerCase();
+
+            const result = await db.query('SELECT id,name,email,password_hash,role,created_at FROM users WHERE email = $1', [normalizedEmail]);
             const user = result.rows[0];
             if (!user) {
                 return res.status(401).json({ error: 'Invalid email or password.' });
