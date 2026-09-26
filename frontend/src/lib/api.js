@@ -50,7 +50,8 @@ export const api = {
 
     // misc
     getTags: () => request('/tags', { auth: false }),
-    getRecentlyViewed: () => request('/recently-viewed'),
+    //getRecentlyViewed: () => request('/recently-viewed'),
+    getRecentlyViewed: () => request('/recent'),
 
     // admin
     getAdminStats: () => request('/admin/stats'),

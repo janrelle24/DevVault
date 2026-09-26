@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/categories');
 const documentRoutes = require('./routes/documents');
 const bookmarkRoutes = require('./routes/bookmarks');
+const recentRoutes = require('./routes/recent');
 const miscRoutes = require('./routes/misc');
 const adminRoutes = require('./routes/admin');
 
@@ -71,6 +72,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/api/recent', recentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', miscRoutes);
 
