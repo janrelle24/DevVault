@@ -38,7 +38,8 @@ export const api = {
         const qs = new URLSearchParams(params).toString();
         return request(`/documents${qs ? `?${qs}` : ''}`, { auth: false });
     },
-    getDocument: (slug) => request(`/documents/${slug}`, { auth: false }),
+    //getDocument: (slug) => request(`/documents/${slug}`, { auth: false }),
+    getDocument: (slug) => request(`/documents/${slug}`),
     createDocument: (payload) => request('/documents', { method: 'POST', body: payload }),
     updateDocument: (slug, payload) => request(`/documents/${slug}`, { method: 'PATCH', body: payload }),
     sendFeedback: (slug, helpful) => request(`/documents/${slug}/feedback`, { method: 'POST', body: { helpful }, auth: false }),
