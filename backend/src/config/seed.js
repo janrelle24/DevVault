@@ -1,7 +1,7 @@
 const slugify = require('slugify');
 const bcrypt = require('bcryptjs');
 const { pool } = require('./db');
-
+/*
 const categories = [
     { name: 'Getting Started', icon: '🚀', sort_order: 1 },
     { name: 'Frontend (React)', icon: '⚛️', sort_order: 2 },
@@ -11,7 +11,18 @@ const categories = [
     { name: 'Deployment', icon: '☁️', sort_order: 6 },
     { name: 'AI Integration', icon: '✨', sort_order: 7 },
     { name: 'Troubleshooting', icon: '🐞', sort_order: 8 }
+];*/
+const categories = [
+    { name: 'Getting Started', icon: 'rocket', sort_order: 1 },
+    { name: 'Frontend (React)', icon: 'react', sort_order: 2 },
+    { name: 'Backend (Node.js)', icon: 'nodejs', sort_order: 3 },
+    { name: 'Database', icon: 'postgresql', sort_order: 4 },
+    { name: 'Authentication', icon: 'jwt', sort_order: 5 },
+    { name: 'Deployment', icon: 'vercel', sort_order: 6 },
+    { name: 'AI Integration', icon: 'bot', sort_order: 7 },
+    { name: 'Troubleshooting', icon: 'bug', sort_order: 8 }
 ];
+
 
 const tags = ['React', 'Vite', 'JavaScript', 'Node.js', 'PostgreSQL', 'Express', 'Auth', 'Deployment', 'API', 'Routes', 'REST'];
 
@@ -83,7 +94,7 @@ const extraDocs = [
     {
         category: 'getting-started',
         title: 'Welcome to DevVault',
-        icon: '🚀',
+        icon: 'rocket',
         description: "An overview of DevVault and how to navigate the documentation.",
         content: [
             {   
@@ -122,7 +133,7 @@ const extraDocs = [
     {
         category: 'backend-nodejs',
         title: 'Node.js API Setup',
-        icon: '🟢',
+        icon: 'nodejs',
         description: 'A step-by-step guide for setting up a Node.js backend with commonly used server, database, authentication, validation, and security packages.',
         content: [
         { type: 'section', heading: '1. Check Node.js', text: 'Make sure Node.js is installed.', code: { lang: 'bash', value: 'node -v' }, callout: { tone: 'success', text: 'Use a current LTS version of Node.js.' } },
@@ -145,7 +156,7 @@ const extraDocs = [
     {
         category: 'backend-nodejs',
         title: 'Express.js Routes Examples',
-        icon: '🛣️',
+        icon: 'express',
         description: 'Common Express.js route patterns for creating API endpoints, handling requests, using parameters, and organizing backend routes.',
         content: [
             { type: 'section', heading: '1. Basic GET Route', text: 'Create a GET endpoint to return data to the client.', code: { lang: 'javascript', value: `app.get('/api/users', (req, res) => {
@@ -226,7 +237,7 @@ const extraDocs = [
     {
         category: 'database',
         title: 'PostgreSQL Setup',
-        icon: '🗄️',
+        icon: 'postgresql',
         description: 'Install PostgreSQL locally and create your first database.',
         content: [
         { type: 'section', heading: '1. Install PostgreSQL', text: 'Use your OS package manager.', code: { lang: 'bash', value: 'brew install postgresql@16' } },
@@ -238,7 +249,7 @@ const extraDocs = [
     {
         category: 'authentication',
         title: 'Admin Authentication & Protected Routes',
-        icon: '🔒',
+        icon: 'jwt',
         description: 'How DevVault handles JWT auth, roles, and the admin dashboard.',
         content: [
         {
@@ -268,7 +279,7 @@ const extraDocs = [
     {
         category: 'deployment',
         title: 'Deploying DevVault',
-        icon: '☁️',
+        icon: 'vercel',
         description: 'Push to GitHub, then deploy the frontend, backend, and database.',
         content: [
         {
@@ -309,7 +320,9 @@ async function seed() {
         const res = await client.query(
             `INSERT INTO categories (name, slug, icon, sort_order)
             VALUES ($1, $2, $3, $4)
-            ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name
+            ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name,
+            icon = EXCLUDED.icon,
+            sort_order = EXCLUDED.sort_order
             RETURNING id, slug`,
             [c.name, slug, c.icon, c.sort_order]
         );
@@ -357,13 +370,13 @@ async function seed() {
         const docRes = await client.query(
         `INSERT INTO documents (category_id, title, slug, icon, description, content, author_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
-        ON CONFLICT (slug) DO UPDATE SET content = EXCLUDED.content, updated_at = now()
+        ON CONFLICT (slug) DO UPDATE SET content = EXCLUDED.content, icon = EXCLUDED.icon, updated_at = now()
         RETURNING id`,
         [
             categoryIds['frontend-react'],
             'React Installation',
             'react-installation',
-            '⚛️',
+            'react',
             'Step-by-step guide to install and set up React with Vite for a modern and fast development experience.',
             JSON.stringify(reactInstallContent),
             adminId
@@ -388,7 +401,7 @@ async function seed() {
         const res = await client.query(
             `INSERT INTO documents (category_id, title, slug, icon, description, content, author_id)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
-            ON CONFLICT (slug) DO UPDATE SET category_id = EXCLUDED.category_id, content = EXCLUDED.content, updated_at = now()
+            ON CONFLICT (slug) DO UPDATE SET category_id = EXCLUDED.category_id, icon = EXCLUDED.icon, content = EXCLUDED.content, updated_at = now()
             RETURNING id`,
             [categoryIds[d.category] || null, d.title, slug, d.icon, d.description, JSON.stringify(d.content), adminId]
         );
