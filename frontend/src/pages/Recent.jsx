@@ -5,6 +5,7 @@ import { api } from '../lib/api';
 //import { useAuth } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
 import { Breadcrumbs } from '../components/Bits';
+import DocIcon from '../components/DocIcon';
 
 export default function Recent() {
     const { user } = useAuth();
@@ -55,7 +56,8 @@ export default function Recent() {
                     className="rounded-xl border border-vault-border bg-vault-elevated p-4 hover:border-vault-accent/40 transition-colors"
                     >
                     <div className="flex items-start gap-3">
-                        <span className="text-xl">{doc.icon}</span>
+                        {/*<span className="text-xl">{doc.icon}</span>*/}
+                        <DocIcon name={doc.icon} size={24} className="shrink-0 mt-0.5 text-vault-text"/>
                         <div className="min-w-0">
                         <p className="text-sm font-semibold text-vault-text truncate">{doc.title}</p>
                         <p className="text-xs text-vault-faint mt-1 line-clamp-2">{doc.description}</p>

@@ -5,6 +5,8 @@ import { api } from '../lib/api';
 //import { useAuth } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
 import { Breadcrumbs } from '../components/Bits';
+import DocIcon from '../components/DocIcon';
+
 
 export default function NewDocument() {
     const { user } = useAuth();
@@ -103,7 +105,7 @@ export default function NewDocument() {
                     <option value="">No category</option>
                     {categories.map((c) => (
                     <option key={c.id} value={c.id}>
-                        {c.icon} {c.name}
+                        {/*{c.icon}*/}<DocIcon name={c.icon} size={28} className="block mb-2 text-vault-text"/> {c.name}
                     </option>
                     ))}
                 </select>

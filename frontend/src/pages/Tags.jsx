@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { Breadcrumbs, TagBadge } from '../components/Bits';
+import DocIcon from '../components/DocIcon';
 
 export default function Tags() {
     const [tags, setTags] = useState([]);
@@ -47,7 +48,8 @@ export default function Tags() {
                     className="rounded-xl border border-vault-border bg-vault-elevated p-4 hover:border-vault-accent/40 transition-colors"
                 >
                     <div className="flex items-start gap-3">
-                    <span className="text-xl">{doc.icon}</span>
+                    {/*<span className="text-xl">{doc.icon}</span>*/}
+                    <DocIcon name={doc.icon} size={24} className="shrink-0 mt-0.5 text-vault-text"/>
                     <div className="min-w-0">
                         <p className="text-sm font-semibold text-vault-text truncate">{doc.title}</p>
                         <p className="text-xs text-vault-faint mt-1 line-clamp-2">{doc.description}</p>

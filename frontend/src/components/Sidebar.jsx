@@ -6,6 +6,7 @@ import { api } from '../lib/api';
 import { useAuth } from '../hooks/useAuth';
 import logoDark from '../assets/DevVault-Logo2.png';
 import logoLight from '../assets/DevVault-Logo-LightMode.png';
+import DocIcon from '../components/DocIcon';
 
 const navItems = [
     { to: '/', icon: Home, label: 'Home', end: true },
@@ -120,7 +121,8 @@ export default function Sidebar({ open, onNavigate }) {
                     }
                     >
                     <span className="flex items-center gap-2.5 truncate">
-                        <span className="text-base leading-none">{c.icon}</span>
+                        {/*<span className="text-base leading-none">{c.icon}</span>*/}
+                        <DocIcon name={c.icon} size={24} className="text-base leading-none"/>
                         <span className="truncate">{c.name}</span>
                     </span>
                     {c.doc_count > 0 && (

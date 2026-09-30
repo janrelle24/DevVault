@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
+import DocIcon from '../components/DocIcon';
 
 export default function Home() {
     const [documents, setDocuments] = useState([]);
@@ -33,7 +34,7 @@ export default function Home() {
                     to={`/categories/${c.slug}`}
                     className="rounded-xl border border-vault-border bg-vault-elevated p-4 hover:border-vault-accent/40 transition-colors"
                 >
-                    <span className="text-2xl block mb-2">{c.icon}</span>
+                    <DocIcon name={c.icon} size={28} className="block mb-2 text-vault-text"/>
                     <span className="block text-sm font-semibold text-vault-text truncate">{c.name}</span>
                     <span className="block text-xs text-vault-faint mt-0.5">{c.doc_count} docs</span>
                 </Link>
@@ -52,7 +53,7 @@ export default function Home() {
                     className="rounded-xl border border-vault-border bg-vault-elevated p-4 hover:border-vault-accent/40 transition-colors"
                     >
                     <div className="flex items-start gap-3">
-                        <span className="text-xl">{doc.icon}</span>
+                        <DocIcon name={doc.icon} size={24} className="shrink-0 mt-0.5 text-vault-text"/>
                         <div className="min-w-0">
                         <p className="text-sm font-semibold text-vault-text truncate">{doc.title}</p>
                         <p className="text-xs text-vault-faint mt-1 line-clamp-2">{doc.description}</p>

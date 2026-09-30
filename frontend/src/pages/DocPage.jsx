@@ -7,6 +7,8 @@ import { useAuth } from '../hooks/useAuth';
 import { Breadcrumbs, TagBadge } from '../components/Bits';
 import CodeBlock from '../components/CodeBlock';
 import RightRail from '../components/RightRail';
+import DocIcon from '../components/DocIcon';
+
 
 function timeAgo(dateStr) {
     const diff = Date.now() - new Date(dateStr).getTime();
@@ -111,7 +113,8 @@ export default function DocPage() {
             
                     <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex items-center gap-3">
-                        <span className="text-3xl">{doc.icon}</span>
+                        {/*<span className="text-3xl">{doc.icon}</span>*/}
+                        <DocIcon name={doc.icon} size={32} className="shrink-0 mt-0.5 text-vault-text"/>
                         <h1 className="text-3xl font-extrabold text-vault-text tracking-tight">{doc.title}</h1>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">

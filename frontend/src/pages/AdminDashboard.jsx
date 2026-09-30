@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FileText, Users, Grid2x2, Trash2, Shield, ShieldOff } from 'lucide-react';
 import { api } from '../lib/api';
 import { Breadcrumbs } from '../components/Bits';
+import DocIcon from '../components/DocIcon';
 
 const tabs = ['Overview', 'Documents', 'Users'];
 
@@ -84,7 +85,9 @@ export default function AdminDashboard() {
                 className="flex items-center justify-between rounded-lg border border-vault-border bg-vault-elevated px-4 py-3 hover:border-vault-accent/40 transition-colors"
               >
                 <span className="flex items-center gap-2.5 text-sm text-vault-text">
-                  <span>{d.icon}</span> {d.title}
+                  <span>{/*{d.icon}*/}
+                  <DocIcon name={d.icon} size={24} className="shrink-0 mt-0.5 text-vault-text"/>
+                  </span> {d.title}
                 </span>
                 <span className="text-xs text-vault-faint tabular-nums">{d.views} views</span>
               </Link>
@@ -111,7 +114,7 @@ export default function AdminDashboard() {
                   <tr key={d.id} className="border-t border-vault-border hover:bg-black/5 dark:hover:bg-white/5">
                     <td className="px-4 py-3">
                       <Link to={`/docs/${d.slug}`} className="text-vault-text font-medium hover:text-vault-accent">
-                        {d.icon} {d.title}
+                        {/*{d.icon}*/}<DocIcon name={d.icon} size={24} className="shrink-0 mt-0.5 text-vault-text"/> {d.title}
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-vault-muted">{d.category_name || '—'}</td>
