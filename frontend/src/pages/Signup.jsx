@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-//import { useAuth } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
 import logoDark from '../assets/DevVault-Logo2.png';
 import logoLight from '../assets/DevVault-Logo-LightMode.png';
 import ButtonSpinner from '../components/ButtonSpinner';
+
+const MIN_SPINNER_MS = 3000;
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default function Signup() {
     const { signup } = useAuth();
@@ -14,26 +16,18 @@ export default function Signup() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    
-    function delay(ms){
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading(true);
         setError('');
     
-        const start = Date.now();
-        const MIN_SPINNER_MS = 3000; // keep the button spinner visible for at least 5s
+        const startedAt = Date.now();
 
         try {
             await signup(name, email, password);
-            const elapsed = Date.now() - start;
-            const remaining = Math.max(0, MIN_SPINNER_MS - elapsed);
-            setTimeout(() => remaining);
-            await delay(remaining);
-            navigate('/login');
+            await delay(Math.max(0, MIN_SPINNER_MS - (Date.now() - startedAt)));
+            navigate('/verify-email', { state: { email, codeJustSent: true } });
         } catch (err) {
             setError(err.message);
         } finally {
@@ -82,7 +76,7 @@ export default function Signup() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full rounded-lg bg-vault-elevated border border-vault-border px-3.5 py-2.5 text-sm text-vault-text outline-none focus:border-vault-accent transition-colors"
-                    placeholder="your@gmail.com"
+                    placeholder="youremail@gmail.com"
                     />
                 </div>
                 <div>
@@ -110,11 +104,13 @@ export default function Signup() {
                     <span>
                         {loading ? <ButtonSpinner size={16}/> : 'Create account'} {/**Creating account… *
                     </span>**/}
+                    {/*
                     {loading ? (
                         <ButtonSpinner size={16} />
                     ) : (
                         'Create account'
-                    )}
+                    )}*/}
+                    {loading ? <ButtonSpinner size={16} /> : 'Create account'}
                 </button>
                 </form>
         

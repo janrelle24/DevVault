@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-//import { useAuth } from '../context/AuthContext'
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import logoDark from '../assets/DevVault-Logo2.png';
 import logoLight from '../assets/DevVault-Logo-LightMode.png';
@@ -9,6 +8,7 @@ import LoadingScreen from '../components/LoadingScreen';
 export default function Login() {
     const { login } = useAuth();
     const navigate = useNavigate();
+    const { state } = useLocation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -24,8 +24,11 @@ export default function Login() {
         try {
             await login(email, password);
             setShowLoadingScreen(true);
-            //navigate('/');
         }catch (err){
+            if (err.code === 'EMAIL_NOT_VERIFIED') {
+                navigate('/verify-email', { state: { email } });
+                return;
+            }
             setError(err.message);
         }finally{
             setLoading(false);  
@@ -80,7 +83,9 @@ export default function Login() {
                     placeholder="••••••••"
                     />
                 </div>
-        
+                {state?.verified && !error && (
+                    <p className="text-sm text-vault-accent">Email verified. You can log in now.</p>
+                )}
                 {error && <p className="text-sm text-vault-danger">{error}</p>}
         
                 <button
@@ -98,10 +103,7 @@ export default function Login() {
                     Sign up
                 </Link>
                 </p>
-        
-                <p className="text-center text-xs text-vault-faint mt-4">
-                Demo login: demo@devvault.dev / password123
-                </p>
+                
             </div>
             </div>
     );

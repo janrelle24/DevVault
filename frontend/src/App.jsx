@@ -10,6 +10,7 @@ import Bookmarks from './pages/Bookmarks';
 import Recent from './pages/Recent';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import VerifyEmail from './pages/VerifyEmail';
 import NewDocument from './pages/NewDocument';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -64,6 +65,7 @@ export default function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route
               path="*"
               element={

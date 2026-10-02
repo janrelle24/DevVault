@@ -1,4 +1,3 @@
-//const BASE_URL = '/api';
 const BASE_URL = `${import.meta.env.VITE_API_URL ?? ''}/api`;
 
 function getToken() {
@@ -18,7 +17,11 @@ async function request(path, { method = 'GET', body, auth = true } = {}) {
 
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
-        throw new Error(data.error || 'Something went wrong. Please try again.');
+        //throw new Error(data.error || 'Something went wrong. Please try again.');
+        const err = new Error(data.error || 'Something went wrong. Please try again.');
+        err.code = data.code;
+        err.status = res.status;
+        throw err;
     }
     return data;
 }
@@ -27,6 +30,8 @@ export const api = {
   // auth
     signup: (payload) => request('/auth/signup', { method: 'POST', body: payload, auth: false }),
     login: (payload) => request('/auth/login', { method: 'POST', body: payload, auth: false }),
+    verifyEmail: (payload) => request('/auth/verify-email', { method: 'POST', body: payload, auth: false }),
+    resendOtp: (payload) => request('/auth/resend-otp', { method: 'POST', body: payload, auth: false }),
     me: () => request('/auth/me'),
 
     // categories
@@ -38,7 +43,6 @@ export const api = {
         const qs = new URLSearchParams(params).toString();
         return request(`/documents${qs ? `?${qs}` : ''}`, { auth: false });
     },
-    //getDocument: (slug) => request(`/documents/${slug}`, { auth: false }),
     getDocument: (slug) => request(`/documents/${slug}`),
     createDocument: (payload) => request('/documents', { method: 'POST', body: payload }),
     updateDocument: (slug, payload) => request(`/documents/${slug}`, { method: 'PATCH', body: payload }),
@@ -51,7 +55,6 @@ export const api = {
 
     // misc
     getTags: () => request('/tags', { auth: false }),
-    //getRecentlyViewed: () => request('/recently-viewed'),
     getRecentlyViewed: () => request('/recent'),
 
     // admin
