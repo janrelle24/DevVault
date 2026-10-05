@@ -1,17 +1,7 @@
 const slugify = require('slugify');
 const bcrypt = require('bcryptjs');
 const { pool } = require('./db');
-/*
-const categories = [
-    { name: 'Getting Started', icon: '🚀', sort_order: 1 },
-    { name: 'Frontend (React)', icon: '⚛️', sort_order: 2 },
-    { name: 'Backend (Node.js)', icon: '🟢', sort_order: 3 },
-    { name: 'Database', icon: '🗄️', sort_order: 4 },
-    { name: 'Authentication', icon: '🔒', sort_order: 5 },
-    { name: 'Deployment', icon: '☁️', sort_order: 6 },
-    { name: 'AI Integration', icon: '✨', sort_order: 7 },
-    { name: 'Troubleshooting', icon: '🐞', sort_order: 8 }
-];*/
+
 const categories = [
     { name: 'Getting Started', icon: 'rocket', sort_order: 1 },
     { name: 'Frontend (React)', icon: 'react', sort_order: 2 },
@@ -343,13 +333,13 @@ async function seed() {
         }
 
         // Admin user (from env, or sensible defaults)
-        const adminEmail = (process.env.ADMIN_EMAIL || 'admin@devvault.dev').toLowerCase();
+        const adminEmail = (process.env.ADMIN_EMAIL || 'lubianojanrelle@gmail.com').toLowerCase();
         const adminPassword = process.env.ADMIN_PASSWORD || 'change_this_password';
         const adminPasswordHash = await bcrypt.hash(adminPassword, 10);
         const adminRes = await client.query(
-        `INSERT INTO users (name, email, password_hash, role)
-        VALUES ($1, $2, $3, 'admin')
-        ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash, role = 'admin'
+        `INSERT INTO users (name, email, password_hash, role, email_verified)
+        VALUES ($1, $2, $3, 'admin', TRUE)
+        ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash, role = 'admin', email_verified = TRUE
         RETURNING id`,
         [process.env.ADMIN_NAME || 'Admin User', adminEmail, adminPasswordHash]
         );
@@ -358,9 +348,9 @@ async function seed() {
         // Demo regular user
         const demoPasswordHash = await bcrypt.hash('password123', 10);
         await client.query(
-        `INSERT INTO users (name, email, password_hash, role)
-        VALUES ($1, $2, $3, 'user')
-        ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name
+        `INSERT INTO users (name, email, password_hash, role, email_verified)
+        VALUES ($1, $2, $3, 'user', TRUE)
+        ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name, email_verified = TRUE
         RETURNING id`,
         ['Demo User', 'demo@devvault.dev', demoPasswordHash]
         );
