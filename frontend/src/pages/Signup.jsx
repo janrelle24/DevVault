@@ -99,17 +99,7 @@ export default function Signup() {
                     disabled={loading}
                     className="w-full h-10 rounded-lg bg-vault-accent hover:bg-vault-accent-hover text-white text-sm font-semibold py-2.5 transition-colors disabled:opacity-60 flex items-center justify-center"
                 >
-                    {/**{loading && <ButtonSpinner size={16} />}**/}
-                    {/**
-                    <span>
-                        {loading ? <ButtonSpinner size={16}/> : 'Create account'} {/**Creating account… *
-                    </span>**/}
-                    {/*
-                    {loading ? (
-                        <ButtonSpinner size={16} />
-                    ) : (
-                        'Create account'
-                    )}*/}
+                    
                     {loading ? <ButtonSpinner size={16} /> : 'Create account'}
                 </button>
                 </form>

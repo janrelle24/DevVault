@@ -26,7 +26,7 @@ export default function Login() {
             setShowLoadingScreen(true);
         }catch (err){
             if (err.code === 'EMAIL_NOT_VERIFIED') {
-                navigate('/verify-email', { state: { email } });
+                navigate('/verify-email', { state: { email, codeJustSent: true } });
                 return;
             }
             setError(err.message);
