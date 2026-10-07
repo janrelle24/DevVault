@@ -1,0 +1,5 @@
+ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS reset_otp_hash TEXT,
+    ADD COLUMN IF NOT EXISTS reset_otp_expires_at TIMESTAMPTZ,
+    ADD COLUMN IF NOT EXISTS reset_otp_attempts INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN IF NOT EXISTS reset_otp_sent_at TIMESTAMPTZ;

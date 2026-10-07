@@ -6,10 +6,16 @@ const { body, validationResult } = require('express-validator');
 const db = require('../config/db');
 const { requireAuth } = require('../middleware/auth');
 const { OTP_LENGTH, OtpError, issueOtp, verifyEmailWithOtp, resendOtp } = require('../services/otp');
+const { requestPasswordReset, resetPasswordWithOtp } = require('../services/passwordReset');
 
 const router = express.Router();
 
 const emailRule = body('email').trim().isEmail().normalizeEmail().withMessage('A valid email is required.');
+const passwordRule = body('password')
+    .isString().withMessage('Password must be a string.').bail()
+    .isLength({ min: 8, max: 72 }).withMessage('Password must be between 8 and 72 characters.').bail()
+    .custom((password) => Buffer.byteLength(password, 'utf8') <= 72)
+    .withMessage('Password cannot exceed 72 UTF-8 bytes.');
 
 /*authentication rate limit */
 function buildLimiter(message){
@@ -23,6 +29,7 @@ function buildLimiter(message){
 }
 const authLimiter = buildLimiter('Too many authentication attempts. Please try again later.');
 const otpLimiter = buildLimiter('Too many verification attempts. Please try again later.');
+const resetLimiter = buildLimiter('Too many password reset attempts. Please try again later.');
 
 function signToken(user){
     return jwt.sign(
@@ -52,7 +59,7 @@ router.post(
     [
         body('name').trim().isLength({ min: 2, max: 10 }).withMessage('Name must be between 2 and 10 characters.'),
         emailRule,
-        body('password').isString().isLength({ min: 8, max: 15}).withMessage('Password must be between 8 and 15 characters.')
+        passwordRule
     ],
     rejectInvalidInput,
     async (req, res) => {
@@ -114,7 +121,7 @@ router.post(
             return sendOtpError(res, err, 'Could not verify email.');
         }
     }
-)
+);
 router.post(
     '/resend-otp',
     otpLimiter,
@@ -128,7 +135,42 @@ router.post(
             return sendOtpError(res, err, 'Could not send verification code.');
         }
     }
-)
+);
+
+router.post(
+    '/forgot-password',
+    resetLimiter,
+    [emailRule],
+    rejectInvalidInput,
+    (req, res) => {
+        // Always respond the same way so this can't be used to find registered emails.
+        // Don't wait for SMTP: otherwise response time reveals whether the email exists.
+        requestPasswordReset(req.body.email).catch((err) => console.error('Password reset request failed:', err));
+        return res.json({ message: 'If an account exists for this email, a reset code has been sent.' });
+    }
+);
+
+router.post(
+    '/reset-password',
+    resetLimiter,
+    [
+        emailRule,
+        body('code', `Enter the ${OTP_LENGTH}-digit code.`)
+            .trim()
+            .isLength({ min: OTP_LENGTH, max: OTP_LENGTH })
+            .isNumeric({ no_symbols: true }),
+        passwordRule
+    ],
+    rejectInvalidInput,
+    async (req, res) => {
+        try {
+            await resetPasswordWithOtp(req.body.email, req.body.code, req.body.password);
+            return res.json({ message: 'Password updated. You can now log in.' });
+        } catch (err) {
+            return sendOtpError(res, err, 'Could not reset password.');
+        }
+    }
+);
 
 router.post(
     '/login',
