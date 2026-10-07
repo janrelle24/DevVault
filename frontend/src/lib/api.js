@@ -1,23 +1,27 @@
-const BASE_URL = `${import.meta.env.VITE_API_URL ?? ''}/api`;
+const API_ROOT = (import.meta.env.VITE_API_URL ?? '')
+    .trim()
+    .replace(/\/+$/, '')
+    .replace(/\/api$/i, '');
+const BASE_URL = `${API_ROOT}/api`;
 
 function getToken() {
     return localStorage.getItem('devvault_token');
 }
 
 async function request(path, { method = 'GET', body, auth = true } = {}) {
-    const headers = { 'Content-Type': 'application/json' };
+    const headers = {};
     const token = getToken();
     if (auth && token) headers.Authorization = `Bearer ${token}`;
+    if (body !== undefined) headers['Content-Type'] = 'application/json';
 
     const res = await fetch(`${BASE_URL}${path}`, {
         method,
         headers,
-        body: body ? JSON.stringify(body) : undefined
+        body: body !== undefined ? JSON.stringify(body) : undefined
     });
 
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
-        //throw new Error(data.error || 'Something went wrong. Please try again.');
         const err = new Error(data.error || 'Something went wrong. Please try again.');
         err.code = data.code;
         err.status = res.status;
@@ -33,6 +37,9 @@ export const api = {
     verifyEmail: (payload) => request('/auth/verify-email', { method: 'POST', body: payload, auth: false }),
     resendOtp: (payload) => request('/auth/resend-otp', { method: 'POST', body: payload, auth: false }),
     me: () => request('/auth/me'),
+
+    forgotPassword: (payload) => request('/auth/forgot-password', { method: 'POST', body: payload, auth: false}),
+    resetPassword: (payload) => request('/auth/reset-password', { method: 'POST', body: payload, auth: false }),
 
     // categories
     getCategories: () => request('/categories', { auth: false }),

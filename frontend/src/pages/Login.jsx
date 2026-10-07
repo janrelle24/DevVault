@@ -69,7 +69,7 @@ export default function Login() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full rounded-lg bg-vault-elevated border border-vault-border px-3.5 py-2.5 text-sm text-vault-text outline-none focus:border-vault-accent transition-colors"
-                    placeholder="you@example.com"
+                    placeholder="youremail@gmail.com"
                     />
                 </div>
                 <div>
@@ -82,9 +82,13 @@ export default function Login() {
                     className="w-full rounded-lg bg-vault-elevated border border-vault-border px-3.5 py-2.5 text-sm text-vault-text outline-none focus:border-vault-accent transition-colors"
                     placeholder="••••••••"
                     />
+                    <Link to="/forgot-password" className="text-xs text-vault-accent hover:underline">Forgot Password</Link>
                 </div>
                 {state?.verified && !error && (
                     <p className="text-sm text-vault-accent">Email verified. You can log in now.</p>
+                )}
+                {state?.passwordReset && !error && (
+                    <p className="text-sm text-vault-accent">Password updated. You can log in now.</p>
                 )}
                 {error && <p className="text-sm text-vault-danger">{error}</p>}
         
