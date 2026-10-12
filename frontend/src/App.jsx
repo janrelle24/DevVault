@@ -16,8 +16,10 @@ import ResetPassword from './pages/ResetPassword';
 import NewDocument from './pages/NewDocument';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import { useOfflineSync } from './hooks/useOfflineSync';
 
 export default function App() {
+  useOfflineSync();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 

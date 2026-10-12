@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link2, Bookmark, BookmarkCheck, Clock } from 'lucide-react';
 import { api } from '../lib/api';
-//import { useAuth } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
 import { Breadcrumbs, TagBadge } from '../components/Bits';
 import CodeBlock from '../components/CodeBlock';
@@ -29,15 +28,26 @@ export default function DocPage() {
     const [copied, setCopied] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
     const [busy, setBusy] = useState(false);
+    const [pendingSync, setPendingSync] = useState(false);
     
     useEffect(() =>{
         if(!slug) return;
         let cancelled = false;
         api.getDocument(slug)
+        /*
             .then(({ document }) =>{
                 if(cancelled) return;
                 setDoc(document);
                 setBookmarked(document.isbookmarked);
+                setPendingSync(false);
+            })*/
+            .then((res) => {
+                if (cancelled) return;
+                if (!res?.document) throw new Error('Document not found.');
+                const { document } = res;
+                setDoc(document);
+                setBookmarked(!!document.isBookmarked);
+                setPendingSync(false);
             })
             .catch((err) =>{
                 if(!cancelled){
@@ -68,6 +78,7 @@ export default function DocPage() {
             await api.removeBookmark(slug);
         } else {
             await api.addBookmark(slug);
+
         }
         setBookmarked((v) => !v);
         } catch {
@@ -127,7 +138,13 @@ export default function DocPage() {
                         <button
                         onClick={toggleBookmark}
                         disabled={!user || busy}
-                        title={!user ? 'Log in to bookmark documents' : undefined}
+                        title={
+                            !user 
+                                ? 'Log in to bookmark documents' 
+                                : pendingSync
+                                    ? "Saved on this device. Will sync when you're back online."
+                                    : undefined
+                            }
                         className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
                             bookmarked
                             ? 'border-vault-accent/40 text-vault-accent bg-vault-accent-soft'

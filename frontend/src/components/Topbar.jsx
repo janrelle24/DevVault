@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Menu, LogOut, User, Sun, Moon } from 'lucide-react';
-//import { useAuth } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
 import { api } from '../lib/api';
+import OfflineSaveButton from './OfflineSaveButton';
+import DocIcon from './DocIcon';
 
 export default function Topbar({ onMenuClick }) {
     const { user, logout } = useAuth();
@@ -79,7 +80,7 @@ export default function Topbar({ onMenuClick }) {
                         onMouseDown={() => goToDoc(doc.slug)}
                         className="w-full text-left px-4 py-3 hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-start gap-3 border-b border-vault-border last:border-0"
                     >
-                        <span className="text-base">{doc.icon}</span>
+                        <DocIcon name={doc.icon} size={18} className="mt-0.5 shrink-0" />
                         <span className="min-w-0">
                         <span className="block text-sm text-vault-text font-medium truncate">{doc.title}</span>
                         <span className="block text-xs text-vault-faint truncate">{doc.category_name}</span>
@@ -91,6 +92,8 @@ export default function Topbar({ onMenuClick }) {
             </div>
         
             <div className="flex-1" />
+
+            <OfflineSaveButton />
         
             <button
                 onClick={toggleTheme}
