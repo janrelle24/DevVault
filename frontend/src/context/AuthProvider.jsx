@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { AuthContext } from './AuthContext';
 import { api } from '../lib/api';
+import { clearOfflineUserData } from '../lib/offlineStore';
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
@@ -19,16 +20,29 @@ export function AuthProvider({ children }) {
         async function checkAuth() {
             try {
                 const { user } = await api.me();
+                localStorage.setItem('devvault_user', JSON.stringify(user));
 
                 if (!cancelled) {
                     setUser(user);
                 }
-            } catch {
-                localStorage.removeItem('devvault_token');
-
-                if (!cancelled) {
-                    setUser(null);
+            } catch(err) {
+                if(err.status === 401){
+                    // The server says the token is bad: log out for real.
+                    localStorage.removeItem('devvault_token');
+                    localStorage.removeItem('devvault_user');
+                    if (!cancelled) setUser(null);
+                }else{
+                    // Offline or server down: stay logged in with the last known user.
+                    const cached = localStorage.getItem('devvault_user');
+                    if (cached && !cancelled) {
+                        try {
+                            setUser(JSON.parse(cached));
+                        } catch {
+                            // ignore a corrupted cache
+                        }
+                    }
                 }
+                
             } finally {
                 if (!cancelled) {
                     setLoading(false);
@@ -50,6 +64,7 @@ export function AuthProvider({ children }) {
         });
 
         localStorage.setItem('devvault_token', token);
+        localStorage.setItem('devvault_user', JSON.stringify(user));
         setUser(user);
 
         return user;
@@ -61,6 +76,9 @@ export function AuthProvider({ children }) {
     
     const logout = useCallback(() => {
         localStorage.removeItem('devvault_token');
+        localStorage.removeItem('devvault_user');
+        globalThis.caches?.delete('devvault-api');
+        clearOfflineUserData().catch(() => {});
         setUser(null);
     }, []);
 
