@@ -50,6 +50,38 @@ const feedbackLimiter = rateLimit({
         error: 'Too many feedback requests. Please try again later.'
     }
 });
+// ─────────────────────────────────────────────
+// GET /api/documents/offline/bundle          (NEW)
+// All documents with full content, for the "Save for offline" feature.
+// Does NOT track views or recently-viewed.
+// ─────────────────────────────────────────────
+router.get('/offline/bundle', async (req, res) => {
+    try {
+        const result = await db.query(
+            `SELECT
+                d.id, d.title, d.slug, d.icon, d.description,
+                d.content, d.updated_at,
+                c.name AS category_name,
+                c.slug AS category_slug,
+                COALESCE(
+                    json_agg(json_build_object('name', t.name, 'slug', t.slug))
+                        FILTER (WHERE t.id IS NOT NULL),
+                    '[]'
+                ) AS tags
+            FROM documents d
+            LEFT JOIN categories c ON c.id = d.category_id
+            LEFT JOIN document_tags dt ON dt.document_id = d.id
+            LEFT JOIN tags t ON t.id = dt.tag_id
+            GROUP BY d.id, c.id
+            ORDER BY d.updated_at DESC`
+        );
+
+        return res.json({ documents: result.rows });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Could not build offline bundle.' });
+    }
+});
 
 // ─────────────────────────────────────────────
 // GET /api/documents
