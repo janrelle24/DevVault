@@ -18,7 +18,7 @@
 ![Supabase](https://img.shields.io/badge/Database-Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white)
 ![JWT](https://img.shields.io/badge/Auth-JWT-D63AFF?style=flat-square&logo=jsonwebtokens&logoColor=white)
 ![PWA](https://img.shields.io/badge/PWA-Installable-5A0FC8?style=flat-square&logo=pwa&logoColor=white)
-![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+![Netlify](https://img.shields.io/badge/Frontend-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)
 ![Render](https://img.shields.io/badge/Backend-Render-46E3B7?style=flat-square&logo=render&logoColor=black)
 
 **[🌐 Live Demo](https://devvault-stack.netlify.app/)** .
