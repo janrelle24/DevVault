@@ -21,7 +21,7 @@
 ![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
 ![Render](https://img.shields.io/badge/Backend-Render-46E3B7?style=flat-square&logo=render&logoColor=black)
 
-**[🌐 Live Demo](devvault-stack.netlify.app)**
+**[🌐 Live Demo](devvault-stack.netlify.app/)**
 
 <!-- Replace with a real screenshot or GIF of the app -->
 <!-- <img src="docs/screenshot.png" alt="DevVault interface" width="800" /> -->
